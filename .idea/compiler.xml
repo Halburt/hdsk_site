@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="common" />
+        <module name="user-service" />
+        <module name="user-service-facade" />
+        <module name="user-service-impl" />
+        <module name="web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.7">
+      <module name="common" target="1.7" />
+      <module name="common-db" target="1.6" />
+      <module name="hdsk_site" target="1.7" />
+      <module name="spring-boot-starter-dubbo" target="1.6" />
+      <module name="user-entity" target="1.7" />
+      <module name="user-facade" target="1.5" />
+      <module name="user-service" target="1.7" />
+      <module name="user-service-facade" target="1.7" />
+      <module name="userf-acade" target="1.5" />
+      <module name="web" target="1.6" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
