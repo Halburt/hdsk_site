@@ -3,7 +3,7 @@ package com.houdask.site.user.web;
 import com.alibaba.fastjson.JSONObject;
 import com.houdask.site.common.web.BaseController;
 import com.houdask.site.user.entity.User;
-import com.houdask.site.user.service.UserService;
+import com.houdask.site.user.service.HdskUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,16 +17,15 @@ import java.util.UUID;
  * @author Halburt 2018-01-16
  */
 @RestController
-public class UserController extends BaseController{
+public class UserTestController extends BaseController{
 
     @Autowired
-    @Qualifier(value = "userService1")
-    private UserService userService;
+    private HdskUserService hdskUserService;
 
     @RequestMapping(value = "/all" )
     public String findAllUser(int pageNum, int pageSize) {
-        List list = userService.findAllUser(pageNum, pageSize);
-        JSONObject json = new JSONObject();
+        List list = hdskUserService.findAllUser(pageNum, pageSize);
+        JSONObject json = new JSONObject();//userService.get("1")
         json.put("data", list);
         return json.toString();
     }
@@ -39,7 +38,7 @@ public class UserController extends BaseController{
         user.setLoginName(UUID.randomUUID().toString().substring(0, 4));
         user.setPassword("111");
         user.setPhone(UUID.randomUUID().toString().substring(0, 4));
-        userService.insert(user);
+        hdskUserService.addUser(user);
         return user;
     }
 }

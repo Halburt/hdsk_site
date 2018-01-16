@@ -5,7 +5,7 @@ import com.houdask.site.common.dao.BaseDao;
 import com.houdask.site.user.entity.User;
 import org.springframework.stereotype.Component;
 
-
+//@MyBatisDao
 public interface UserMapper extends BaseDao<User> {
     int deleteByPrimaryKey(String id);
 

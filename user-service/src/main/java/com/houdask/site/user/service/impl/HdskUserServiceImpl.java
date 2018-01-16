@@ -1,22 +1,21 @@
 package com.houdask.site.user.service.impl;
 
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.PageHelper;
 import com.houdask.site.common.service.impl.BaseServiceImpl;
 import com.houdask.site.user.dao.UserMapper;
 import com.houdask.site.user.entity.User;
-import com.houdask.site.user.service.UserService;
-import org.springframework.stereotype.Component;
+import com.houdask.site.user.service.HdskUserService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
+ * 业务实现类
  * @author Halburt 2018-01-16
  */
-@Component
-@Service(version = "1.0.0")
-public class UserServiceImpl  extends BaseServiceImpl<UserMapper,User> implements UserService{
+@Service
+public class HdskUserServiceImpl  extends BaseServiceImpl<UserMapper,User> implements HdskUserService {
 //    @Autowired
 //    private UserMapper dao;
 

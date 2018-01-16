@@ -7,11 +7,12 @@
     <version>1.0</version>
 
     <artifactId>web</artifactId>
+    <packaging>war</packaging>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.9.RELEASE</version>
-        <relativePath/>
+        <artifactId>parent</artifactId>
+        <groupId>com.houdask.hdsk.site</groupId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <dependencies>
         <dependency>
@@ -29,10 +30,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-dubbo</artifactId>
-        </dependency>
+
         <!-- servlet 依赖. -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -67,7 +65,27 @@
 
     </dependencies>
 
-
+    <!--指定使用maven打包-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>App</mainClass>
+                    <layout>ZIP</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 
 

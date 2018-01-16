@@ -4,7 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONObject;
 import com.houdask.site.common.web.BaseController;
 import com.houdask.site.user.entity.User;
-import com.houdask.site.user.service.UserService;
+import com.houdask.site.user.service.IUserServiceFacade;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +17,8 @@ import java.util.UUID;
 @RestController
 public class UserController  extends BaseController{
 
-    @Reference(version="1.0.0")
-    private UserService userService;
+    @Reference
+    private IUserServiceFacade userService;
 
     @RequestMapping(value = "/all" )
     public String findAllUser(int pageNum, int pageSize) {
@@ -35,7 +35,7 @@ public class UserController  extends BaseController{
         user.setLoginName(UUID.randomUUID().toString().substring(0, 4));
         user.setPassword("111");
         user.setPhone(UUID.randomUUID().toString().substring(0, 4));
-        userService.insert(user);
+        userService.addUser(user);
         return user;
     }
 }

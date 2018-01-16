@@ -1,3 +1,6 @@
+server:
+  port: 9000
+  #${random.int[9000,9999]}
 logging.path: logs
 spring:
     datasource:
@@ -11,26 +14,25 @@ spring:
        maxActive:  20
        initialSize:  1
        maxWait: 60000
-        minIdle: 1
-        timeBetweenEvictionRunsMillis: 60000
-        minEvictableIdleTimeMillis: 300000
-        validationQuery: select 'x'
-        testWhileIdle: true
-        testOnBorrow: false
-        testOnReturn: false
-        poolPreparedStatements: true
-        maxOpenPreparedStatements: 20
-
+       minIdle: 1
+       timeBetweenEvictionRunsMillis: 60000
+       minEvictableIdleTimeMillis: 300000
+       validationQuery: select 'x'
+       testWhileIdle: true
+       testOnBorrow: false
+       testOnReturn: false
+       poolPreparedStatements: true
+       maxOpenPreparedStatements: 20
 mybatis:
-   mapper-locations: classpath:mapping/*.xml
-   type-aliases-package: com.houdask.site.user.dao
+    mapper-locations: classpath:mapping/*.xml
+    type-aliases-package: com.houdask.site.user.dao
 
 #pagehelper分页
 pagehelper:
-    helperDialect: mysql
-    reasonable: true
-    supportMethodsArguments: true
-    params: count=countSql
+   helperDialect: mysql
+   reasonable: true
+   supportMethodsArguments: true
+   params: count=countSql
 
   #应用名
 dubbo:
@@ -39,16 +41,17 @@ dubbo:
     #负责人
        owner: hdsk
     #注册zookeeper的地址
-dubbo:
-    registry:
+#dubbo:
+   registry:
        address: zookeeper://localhost:2181
+       group: hdsk-user
 
     #扫包
-dubbo:
-    annotation:
-       package: com.houdask.site.user
+#dubbo:
+   annotation:
+       package: com.houdask.site.user.service.facade
     #协议 (有 dubbo、rest、http、hessian、webservice)
-dubbo:
+#dubbo:
    protocol:
       name: dubbo
     #协议暴露服务的端口(Integer类型)
@@ -58,10 +61,13 @@ dubbo:
 #序列化优化的实现类
       optimizer: com.houdask.site.common.config.SerializationOptimizerImpl
       #Dubbox的REST支持
-dubbo:
+#dubbo:
    rest:
        name:  rest
        port:  8082
        server:  tomcat
+
+
+
 
 
