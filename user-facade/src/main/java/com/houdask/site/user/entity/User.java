@@ -35,13 +35,6 @@ public class User  extends BaseEntity {
 
     private String delFlag;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
 
     public String getLoginName() {
         return loginName;

@@ -5,8 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/common-db/common-db.iml" filepath="$PROJECT_DIR$/common-db/common-db.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/hdsk_site.iml" filepath="$PROJECT_DIR$/.idea/hdsk_site.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user-facade/user-facade.iml" filepath="$PROJECT_DIR$/user-facade/user-facade.iml" />
       <module fileurl="file://$PROJECT_DIR$/user-service/user-service.iml" filepath="$PROJECT_DIR$/user-service/user-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/user-service-facade/user-service-facade.iml" filepath="$PROJECT_DIR$/user-service-facade/user-service-facade.iml" />
       <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
     </modules>
   </component>

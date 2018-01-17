@@ -7,13 +7,6 @@
     <groupId>com.houdask.hdsk.site</groupId>
     <artifactId>parent</artifactId>
     <version>1.0</version>
-    <dependencies>
-        <dependency>
-            <groupId>com.houdask.hdsk.site</groupId>
-            <artifactId>common</artifactId>
-            <version>1.0</version>
-        </dependency>
-    </dependencies>
     <packaging>pom</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,8 +25,8 @@
     <modules>
         <module>common</module>
         <module>common-db</module>
+        <module>user-facade</module>
         <module>user-service</module>
-        <module>user-service-facade</module>
         <module>web</module>
     </modules>
     <dependencyManagement><dependencies>

@@ -7,24 +7,16 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/site-parent/pom.xml" />
-        <option value="$PROJECT_DIR$/site-common/pom.xml" />
-        <option value="$PROJECT_DIR$/site-user-dao/pom.xml" />
-        <option value="$PROJECT_DIR$/site-user-entity/pom.xml" />
-        <option value="$PROJECT_DIR$/common/pom.xml" />
-        <option value="$PROJECT_DIR$/user/pom.xml" />
-        <option value="$PROJECT_DIR$/common-db/pom.xml" />
+         <option value="$PROJECT_DIR$/common/pom.xml" />
+         <option value="$PROJECT_DIR$/common-db/pom.xml" />
         <option value="$PROJECT_DIR$/user-dao/pom.xml" />
         <option value="$PROJECT_DIR$/user-service/pom.xml" />
-        <option value="$PROJECT_DIR$/user-service-impl/pom.xml" />
+        <option value="$PROJECT_DIR$/user-facade/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/user-dao/pom.xml" />
-        <option value="$PROJECT_DIR$/user-facade/pom.xml" />
-        <option value="$PROJECT_DIR$/userf-acade/pom.xml" />
       </set>
     </option>
   </component>

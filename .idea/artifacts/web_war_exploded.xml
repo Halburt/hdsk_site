@@ -31,8 +31,8 @@
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
           <element id="library" level="project" name="Maven: com.google.guava:guava:16.0.1" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot:1.5.9.RELEASE" />
-          <element id="archive" name="user-service-facade-1.0.jar">
-            <element id="module-output" name="user-service-facade" />
+          <element id="archive" name="user-facade-1.0.jar">
+            <element id="module-output" name="user-facade" />
           </element>
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-tomcat:1.5.9.RELEASE" />
           <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:8.5.23" />
