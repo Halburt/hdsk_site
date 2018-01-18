@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableAutoConfiguration
 @MapperScan("com.houdask.site.user.dao")//将项目中对应的mapper类的路径加进来就可以了
 @SpringBootApplication
-//@ComponentScan("com.houdask.site")
+@ComponentScan("com.houdask.site")
 public class UserServiceApp extends SpringBootServletInitializer {
 /*
     @Override

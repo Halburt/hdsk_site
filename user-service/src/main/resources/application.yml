@@ -1,7 +1,7 @@
 server:
  # port: 9000
   port: ${random.int[9000,9999]}
-  context-path: /user-service/
+ # context-path: /user-service/
 
 logging.path: logs
 mybatis:
