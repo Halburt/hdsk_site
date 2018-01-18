@@ -1,7 +1,19 @@
 server:
-  port: 9000
-  #${random.int[9000,9999]}
+ # port: 9000
+  port: ${random.int[9000,9999]}
+  context-path: /user-service/
+
 logging.path: logs
+mybatis:
+    mapper-locations: classpath:mapping/*.xml
+    type-aliases-package: com.houdask.site.user.dao
+
+#pagehelper分页
+pagehelper:
+   helperDialect: mysql
+   reasonable: true
+   supportMethodsArguments: true
+   params: count=countSql
 spring:
     datasource:
        name: springbootservice
@@ -23,50 +35,29 @@ spring:
        testOnReturn: false
        poolPreparedStatements: true
        maxOpenPreparedStatements: 20
-mybatis:
-    mapper-locations: classpath:mapping/*.xml
-    type-aliases-package: com.houdask.site.user.dao
 
-#pagehelper分页
-pagehelper:
-   helperDialect: mysql
-   reasonable: true
-   supportMethodsArguments: true
-   params: count=countSql
+#https://github.com/JeffLi1993/springboot-learning-example/blob/master/springboot-dubbo-server
+## Dubbo 服务提供者配置
 
-  #应用名
-dubbo:
-   application:
-       name: user-service-provider
-    #负责人
-       owner: hdsk
-    #注册zookeeper的地址
-#dubbo:
-   registry:
-       address: zookeeper://localhost:2181
-       group: hdsk-user
-
-    #扫包
-#dubbo:
-   annotation:
-       package: com.houdask.site.user.service.facade
-    #协议 (有 dubbo、rest、http、hessian、webservice)
-#dubbo:
-   protocol:
-      name: dubbo
-    #协议暴露服务的端口(Integer类型)
-      port: 20880
-            #序列化方式(kryo是目前效率最高的)
-      serialization: kryo
-#序列化优化的实现类
-      optimizer: com.houdask.site.common.config.SerializationOptimizerImpl
-      #Dubbox的REST支持
-#dubbo:
-   rest:
-       name:  rest
-       port:  8082
-       server:  tomcat
-
+#应用名
+    dubbo:
+       scan: com.houdask.site
+       application:
+           name: user-service-provider
+        #注册zookeeper的地址
+       registry:
+           address: zookeeper://127.0.0.1:2181
+        #协议 (有 dubbo、rest、http、hessian、webservice)
+    #dubbo:
+       protocol:
+          name: dubbo
+        #协议暴露服务的端口(Integer类型)
+          port:  ${random.int[20880,20900]}
+          #20881
+                #序列化方式(kryo是目前效率最高的)
+        #  serialization: kryo
+    #序列化优化的实现类
+          optimizer: com.houdask.site.common.config.SerializationOptimizerImpl
 
 
 

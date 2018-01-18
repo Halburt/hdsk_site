@@ -16,7 +16,9 @@ public interface    IUserServiceFacade  extends IBaseServiceFacade<User>{
      * pageNum 开始页数
      * pageSize 每页显示的数据条数
      * */
-    public abstract List<User> findAllUser(int pageNum, int pageSize);
+    public  List<User> findAllUser(int pageNum, int pageSize);
 
-    public abstract int addUser(User user);
+    public  int addUser(User user);
+
+    public  int hello( );
 }

@@ -1,4 +1,4 @@
-package com.houdask.site.user.web;
+package com.houdask.site.user.api;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONObject;
@@ -12,12 +12,15 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ *  测试RestController 返回JSON
+    演示duboox 消费者 Reference调用
  * @author Halburt 2018-01-16
  */
+@RequestMapping(value = "/api/user" )
 @RestController
-public class UserController  extends BaseController{
+public class UserController /* extends BaseController*/{
 
-    @Reference
+    @Reference(version = "1.0.0",check = false)
     private IUserServiceFacade userService;
 
     @RequestMapping(value = "/all" )
@@ -31,11 +34,17 @@ public class UserController  extends BaseController{
     @RequestMapping(value = "/add" )
     public User addUser(User user) {
         user = new User();
-        user.setName(UUID.randomUUID().toString().substring(0, 4));
+        user.setId(UUID.randomUUID().toString().substring(0, 4));
+        user.setName("我是web"+UUID.randomUUID().toString().substring(0, 4));
         user.setLoginName(UUID.randomUUID().toString().substring(0, 4));
         user.setPassword("111");
         user.setPhone(UUID.randomUUID().toString().substring(0, 4));
         userService.addUser(user);
         return user;
+    }
+    @RequestMapping(value = "/hello" )
+    public String hello( ) {
+//        userService.hello();
+        return userService.hello()+"";
     }
 }

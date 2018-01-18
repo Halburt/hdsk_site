@@ -4,6 +4,7 @@ import com.houdask.site.common.service.BaseService;
 import com.houdask.site.user.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 业务service接口
@@ -20,4 +21,6 @@ public interface HdskUserService extends BaseService<User>  {
     public List<User> findAllUser(int pageNum, int pageSize);
 
     public int addUser(User user);
+
+    public Map getCacheUser( );
 }

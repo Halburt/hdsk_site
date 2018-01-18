@@ -1,0 +1,32 @@
+ #应用名
+    dubbo:
+       application:
+           name: user-service-provider
+        #负责人
+           owner: hdsk
+        #注册zookeeper的地址
+    #dubbo:
+       registry:
+           protocol: zookeeper
+           address: 127.0.0.1:2181
+
+        #扫包
+    #dubbo:
+       annotation:
+           package: com.houdask
+        #协议 (有 dubbo、rest、http、hessian、webservice)
+    #dubbo:
+       protocol:
+          name: dubbo
+        #协议暴露服务的端口(Integer类型)
+          port: 20880
+                #序列化方式(kryo是目前效率最高的)
+          serialization: kryo
+    #序列化优化的实现类
+          optimizer: com.houdask.site.common.config.SerializationOptimizerImpl
+          #Dubbox的REST支持
+    #dubbo:
+       rest:
+           name:  rest
+           port:  8082
+           server:  tomcat
