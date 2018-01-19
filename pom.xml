@@ -33,6 +33,8 @@
         <module>user-service</module>
         <module>web</module>
         <module>common-redis</module>
+        <module>auth-token</module>
+        <module>auth-shiro</module>
     </modules>
 
 </project>
