@@ -12,6 +12,23 @@
     <artifactId>auth-shiro</artifactId>
     <description>shiro登录认证和权限管理 模块</description>
     <dependencies>
+        <dependency>
+            <groupId>com.houdask.hdsk.site</groupId>
+            <artifactId>common-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.houdask.hdsk.site</groupId>
+            <artifactId>auth-user</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.houdask.hdsk.site</groupId>
+            <artifactId>common-redis</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!--shiro-->
         <dependency>
             <groupId>org.apache.shiro</groupId>
@@ -22,6 +39,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>

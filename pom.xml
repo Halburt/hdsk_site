@@ -35,6 +35,10 @@
         <module>common-redis</module>
         <module>auth-token</module>
         <module>auth-shiro</module>
+        <module>common-utils</module>
+        <module>sys-user</module>
+        <module>auth-jwt</module>
+        <module>auth-user</module>
     </modules>
 
 </project>
