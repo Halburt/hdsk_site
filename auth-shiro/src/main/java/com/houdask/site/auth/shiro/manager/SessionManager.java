@@ -28,8 +28,6 @@ import java.util.Date;
 
 /**
  * 自定义WEB会话管理类
- * @author ThinkGem
- * @version 2014-7-20
  */
 public class SessionManager extends DefaultWebSessionManager {
 
@@ -60,10 +58,14 @@ public class SessionManager extends DefaultWebSessionManager {
 		}
 	}
 	protected Session retrieveSession(SessionKey sessionKey) {
+        System.out.println("sessionKey:" + sessionKey);
 		try{
 			return super.retrieveSession(sessionKey);
-		}catch (UnknownSessionException e) {
+		}catch (NullPointerException e) {
     		// 获取不到SESSION不抛出异常
+			return null;
+		}catch (InvalidSessionException e1) {
+			// 获取不到SESSION不抛出异常
 			return null;
 		}
 	}

@@ -17,7 +17,6 @@ import java.util.Set;
 /**
  * 自定义授权缓存管理类
  */
-@Component
 public class MyRedisCacheManager implements CacheManager {
 
 	private String cacheKeyPrefix = "shiro_";

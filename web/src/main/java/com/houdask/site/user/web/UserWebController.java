@@ -3,17 +3,17 @@ package com.houdask.site.user.web;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONObject;
+import com.houdask.site.auth.shiro.enmu.LoginWay;
+import com.houdask.site.auth.shiro.token.Principal;
+import com.houdask.site.auth.shiro.token.SysAuthToken;
 import com.houdask.site.user.service.IUserServiceFacade;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.apache.shiro.subject.Subject;
 import java.util.List;
@@ -34,17 +34,27 @@ public class UserWebController {
         return "userList";
     }
 
-    @RequestMapping(value = "/unauth" )
-    public String  login(int pageNum, int pageSize, Model model) {
+    @RequestMapping(value = "/login" )
+    public String  login(  Model model) {
         return "userLogin";
     }
-    @RequestMapping(value = "/ajaxLogin", method = RequestMethod.POST)
-    @ResponseBody
-    public String ajaxLogin(String username , String password) {
+
+    @RequestMapping(value = "/index" )
+    public String  index(  Model model) {
+        model.addAttribute("hello","hello");
+        return "hello";
+    }
+    @RequestMapping(value = "/ajaxLogin" )
+    public String ajaxLogin(String username , String password, Model model) {
         JSONObject jsonObject = new JSONObject();
         try {
             Subject subject = SecurityUtils.getSubject();
-            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+            SysAuthToken token = new SysAuthToken(  username,   password, LoginWay.WEB );
+            Principal principal =   new Principal(token);
+            principal.setId("1");
+            principal.setRealname(username+"Realname");
+            principal.setNickname(username+"Nickname");
+            token.setAuthPrincipal(principal);
             subject.login(token);
             jsonObject.put("token", subject.getSession().getId());
             jsonObject.put("msg", "登录成功");
@@ -57,6 +67,7 @@ public class UserWebController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return jsonObject.toString();
+        model.addAttribute("hello",jsonObject);
+        return "hello";
     }
 }
