@@ -3,35 +3,29 @@
  */
 package com.houdask.site.auth.shiro.session;
 
+import com.alibaba.fastjson.JSONObject;
+import com.houdask.site.auth.shiro.token.Principal;
 import com.houdask.site.auth.shiro.util.Servlets;
 import com.houdask.site.common.redis.base.BaseRedisDao;
-import com.houdask.site.common.utils.DateUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
-import org.apache.shiro.session.mgt.SimpleSession;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
-import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * 自定义授权会话管理类
  */
 //@Component
-public class RedisSessionDAO2 extends EnterpriseCacheSessionDAO implements SessionDAO {
+public class RedisSessionDAO2 extends AbstractSessionDAO /*implements SessionDAO */{
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
@@ -50,13 +44,23 @@ public class RedisSessionDAO2 extends EnterpriseCacheSessionDAO implements Sessi
      */
 	@Override
 	public void update(Session session) throws UnknownSessionException {
+		System.out.println("RedisSessionDAO2  update>> ");
 		if (session == null || session.getId() == null) {  
+
             return;
         }
 		try {
+		    try {
+                Principal  p = (Principal) SecurityUtils.getSubject().getPrincipal();
+                System.out.println("RedisSessionDAO2  update>> " + JSONObject.toJSONString(p ) +p.getSessionId()) ;
+                System.out.println("RedisSessionDAO2  update>> " + session.getId().toString());
+            }catch (Exception e){
+                System.out.println("RedisSessionDAO2  update>> " + e.getMessage());
+            }
+
+
 			// 获取登录者编号
-			PrincipalCollection pc = (PrincipalCollection)session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
-			String principalId = pc != null ? pc.getPrimaryPrincipal().toString() : "null";
+			String principalId = (String) session.getAttribute(Principal.Principal_SESSION_KEY);
             baseRedisDao.addMap(sessionKeyPrefix, session.getId().toString(),
                         principalId + "|" + session.getTimeout() + "|" + session.getLastAccessTime().getTime());
             //TODO session序列化待处理
@@ -81,6 +85,10 @@ public class RedisSessionDAO2 extends EnterpriseCacheSessionDAO implements Sessi
 		}
 	}
 
+	@Override
+	public Collection<Session> getActiveSessions() {
+		return baseRedisDao.getByRegular(sessionKeyPrefix+"*");
+	}
 
 
 	@Override
@@ -117,7 +125,6 @@ public class RedisSessionDAO2 extends EnterpriseCacheSessionDAO implements Sessi
 		}
 
 		Session session = null;
-		Jedis jedis = null;
 		try {
             session = (Session) baseRedisDao.get(sessionKeyPrefix + sessionId.toString());
 			logger.debug("doReadSession {} {}", sessionId, request != null ? request.getRequestURI() : "");

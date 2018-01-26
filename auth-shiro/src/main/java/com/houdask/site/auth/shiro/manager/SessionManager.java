@@ -3,12 +3,11 @@
  */
 package com.houdask.site.auth.shiro.manager;
 
+import com.houdask.site.auth.shiro.session.IdGen;
 import com.houdask.site.auth.shiro.util.Servlets;
 import com.houdask.site.common.utils.StringUtils;
-import org.apache.shiro.session.ExpiredSessionException;
-import org.apache.shiro.session.InvalidSessionException;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.session.UnknownSessionException;
+import org.apache.shiro.session.*;
+import org.apache.shiro.session.mgt.DelegatingSession;
 import org.apache.shiro.session.mgt.SessionContext;
 import org.apache.shiro.session.mgt.SessionKey;
 import org.apache.shiro.session.mgt.SimpleSession;
@@ -36,7 +35,8 @@ public class SessionManager extends DefaultWebSessionManager {
 	}
 	@Override
 	protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
-		// 如果参数中包含“__sid”参数，则使用此sid会话。 例如：http://localhost/project?__sid=xxx&__cookie=true
+
+        // 如果参数中包含“__sid”参数，则使用此sid会话。 例如：http://localhost/project?__sid=xxx&__cookie=true
 		String sid = request.getParameter("__sid");
 		if (StringUtils.isNotBlank(sid)) {
 			// 是否将sid保存到cookie，浏览器模式下使用此参数。
@@ -54,11 +54,15 @@ public class SessionManager extends DefaultWebSessionManager {
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
         	return sid;
 		}else{
-			return super.getSessionId(request, response);
+            Serializable  sid1 = super.getSessionId(request, response);
+            System.out.println("getSessionId==="+sid1.toString());
+			return  sid1;
 		}
 	}
-	protected Session retrieveSession(SessionKey sessionKey) {
-        System.out.println("sessionKey:" + sessionKey);
+
+
+    protected Session retrieveSession(SessionKey sessionKey) {
+        System.out.println("retrieveSession ==sessionKey:" + sessionKey);
 		try{
 			return super.retrieveSession(sessionKey);
 		}catch (NullPointerException e) {
@@ -106,9 +110,10 @@ public class SessionManager extends DefaultWebSessionManager {
     }
 
     public void touch(SessionKey key) {
+        System.out.println("touch key==="+key);
     	try{
     		Session session = getSession( key);
-    		if (session != null ) {  
+    		if (session != null ) {
     			HttpServletRequest request = Servlets.getRequest();
     			if (request != null){
     				String uri = request.getServletPath();
@@ -130,14 +135,18 @@ public class SessionManager extends DefaultWebSessionManager {
     		}
     		session.setAttribute("LAST_TIME", session.getLastAccessTime());
 	    	super.touch(key);
-	        
+
 		}catch (InvalidSessionException e) {
 			// 获取不到SESSION不抛出异常
 		}
     }
-    
 
-    public String getHost(SessionKey key) {
+	@Override
+	protected void create(Session session) {
+		super.create(session);
+	}
+
+	public String getHost(SessionKey key) {
     	try{
     		return super.getHost(key);
     	}catch (InvalidSessionException e) {
@@ -188,7 +197,7 @@ public class SessionManager extends DefaultWebSessionManager {
     		// 获取不到SESSION不抛出异常
 		}
     }
-    
+
     public void checkValid(SessionKey key) {
     	try{
     		super.checkValid(key);
@@ -196,10 +205,11 @@ public class SessionManager extends DefaultWebSessionManager {
 			// 获取不到SESSION不抛出异常
 		}
     }
-    
+
     @Override
     protected Session doCreateSession(SessionContext context) {
     	try{
+            System.out.println("doCreateSession===");
     		return super.doCreateSession(context);
 		}catch (IllegalStateException e) {
 			return null;
@@ -208,14 +218,20 @@ public class SessionManager extends DefaultWebSessionManager {
 
 	@Override
 	protected Session newSessionInstance(SessionContext context) {
-		Session session = super.newSessionInstance(context);
-		session.setTimeout(getGlobalSessionTimeout());
+		SimpleSession session =  new SimpleSession(context.getHost());
+		session.setId(IdGen.uuid());
 		return session;
 	}
-    
+
+    private  Session newSessionInstance( ) {
+        SimpleSession session =  new SimpleSession( );
+        session.setId(IdGen.uuid());
+        return session;
+    }
     @Override
     public Session start(SessionContext context) {
     	try{
+            System.out.println("start===");
     		return super.start(context);
 		}catch (NullPointerException e) {
 			SimpleSession session = new SimpleSession();
@@ -233,5 +249,19 @@ public class SessionManager extends DefaultWebSessionManager {
 	protected void onStop(Session session, SessionKey key) {
 		super.onStop(session, key);
 	}
-	 
+
+    @Override
+    public Session getSession(SessionKey key) throws SessionException {
+        Session session = null;
+	    try{
+            System.out.println(
+                    "getSession====="+((key != null &&  null != key.getSessionId()) ? "null" : key.getSessionId() ));
+            session = super.getSession(key);
+        }catch (IllegalArgumentException e){
+            System.out.println(key+e.getMessage());
+            e.printStackTrace();
+            session = newSessionInstance();
+        }
+        return session;
+    }
 }

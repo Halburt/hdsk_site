@@ -13,14 +13,17 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * 自定义授权缓存管理类
  */
 public class MyRedisCacheManager implements CacheManager {
 
-	private String cacheKeyPrefix = "shiro_";
-
+	private String cacheKeyPrefix = "shiro_cache_";
+	// fast lookup by name map
+	private final ConcurrentMap<String, Cache> caches = new ConcurrentHashMap<String, Cache>();
 	/**
 	 * 具体redis操作实现 在调用shiro模块  redis连接应同系统认证user连接相同
 	 */
@@ -29,7 +32,13 @@ public class MyRedisCacheManager implements CacheManager {
 
 	@Override
 	public <K, V> Cache<K, V> getCache(String name) throws CacheException {
-		return new MyRedisCache<K, V>(cacheKeyPrefix + name);
+		System.out.println("===========getCache==="+name);
+		Cache cache = caches.get(name);
+		if(cache == null){
+			cache = new MyRedisCache<K, V>(cacheKeyPrefix + name);
+			caches.put(name ,cache);
+		}
+		return cache ;
 	}
 
 	public String getCacheKeyPrefix() {
@@ -42,8 +51,6 @@ public class MyRedisCacheManager implements CacheManager {
 	
 	/**
 	 * 自定义授权缓存管理类
-	 * @author ThinkGem
-	 * @version 2014-7-20
 	 */
 	public class MyRedisCache<K, V> implements Cache<K, V> {
 
@@ -61,8 +68,9 @@ public class MyRedisCacheManager implements CacheManager {
 				return null;
 			}
 			V value = null;
+			System.out.println("put(K key:"+key.toString());
 			try {
-                value  = (V) baseRedisDao.getMapField(cacheKeyName,key);
+                value  = (V) baseRedisDao.getMapField(cacheKeyName,key.toString());
  			} catch (Exception e) {
 				logger.error("get {} {} {}", cacheKeyName, key,   e);
 			}
@@ -75,7 +83,9 @@ public class MyRedisCacheManager implements CacheManager {
 				return null;
 			}
 			try {
-                baseRedisDao.addMap(cacheKeyName,key,value);
+				System.out.println("put(K key:"+key.toString());
+				System.out.println("put(value:"+value.toString());
+                baseRedisDao.addMap(cacheKeyName,key.toString(),value);
 				logger.debug("put {} {} = {}", cacheKeyName, key, value);
 			} catch (Exception e) {
 				logger.error("put {} {}", cacheKeyName, key, e);
@@ -88,7 +98,7 @@ public class MyRedisCacheManager implements CacheManager {
 		public V remove(K key) throws CacheException {
 			V value = null;
 			try {
-				baseRedisDao.removeMapField(cacheKeyName,key);
+				baseRedisDao.removeMapField(cacheKeyName,key.toString());
 				logger.debug("remove {} {}", cacheKeyName, key);
 			} catch (Exception e) {
 				logger.warn("remove {} {}", cacheKeyName, key, e);

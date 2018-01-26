@@ -45,6 +45,11 @@
             <version>${shiro.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.houdask.hdsk.site</groupId>
+            <artifactId>common-spring</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-web</artifactId>
             <version>${shiro.version}</version>

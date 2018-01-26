@@ -1,5 +1,6 @@
 package com.houdask.site.auth.shiro.token;
 
+import com.alibaba.fastjson.JSONObject;
 import com.houdask.site.auth.shiro.enmu.LoginWay;
 import com.houdask.site.auth.shiro.enmu.RegisteType;
 
@@ -9,6 +10,7 @@ import java.io.Serializable;
 	 * 授权用户信息
 	 */
 public  class Principal implements Serializable {
+    public static String  Principal_SESSION_KEY = "Principal_SESSION_KEY";
     /**
      * 对应系统中唯一标识ID
      */
@@ -31,6 +33,7 @@ public  class Principal implements Serializable {
      */
     private RegisteType registeType;
 
+    private String sessionId ;//session id
     public Principal(String id, String realname, String nickname, LoginWay loginWay, RegisteType registeType) {
         this.id = id;
         this.realname = realname;
@@ -82,4 +85,18 @@ public  class Principal implements Serializable {
     public void setRegisteType(RegisteType registeType) {
         this.registeType = registeType;
     }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    @Override
+    public String toString() {
+        return id;
+    }
+
 }

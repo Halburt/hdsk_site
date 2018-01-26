@@ -2,80 +2,93 @@ package com.houdask.site.auth.shiro.session;
 
 import com.houdask.site.common.redis.base.BaseRedisDao;
 import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
+import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 /**
- * redis实现共享session
+ *
  */
-@Component
-public class RedisSessionDAO extends EnterpriseCacheSessionDAO {
+@Repository("shiroSessionDAO")
+public class RedisSessionDAO extends AbstractSessionDAO {
 
-    private static Logger logger = LoggerFactory.getLogger(RedisSessionDAO.class);
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    // session 在redis过期时间是30分钟30*60
-    private static long expireTime = 1800;
+    private static final String sessionPrefix = "shiroSession_";
+    private static final long TIMEOUT = 1800;
 
-    private static String prefix = "shiro-session:";
 
-//    @Resource
-//    private RedisTemplate<String, Object> redisTemplate;
     @Autowired
     private BaseRedisDao baseRedisDao;
+
+
+    private String getKey(String originalKey) {
+        return sessionPrefix + originalKey;
+    }
 
     // 创建session，保存到数据库
     @Override
     protected Serializable doCreate(Session session) {
-        Serializable sessionId = super.doCreate(session);
-        logger.debug("创建session:{}", session.getId());
-//        redisTemplate.opsForValue().set(prefix + sessionId.toString(), session);
-        baseRedisDao.set(prefix + sessionId.toString(),session );
+        Serializable sessionId = this.generateSessionId(session);
+        this.assignSessionId(session, sessionId);
+        logger.info("===createSession:{}", sessionId.toString());
+//        redisTemplate.opsForValue().set(getKey(sessionId.toString()), session, redisConfig.getSessionTime(), TimeUnit.MINUTES);
+        baseRedisDao.set(getKey(sessionId.toString()),session,TIMEOUT );
         return sessionId;
     }
 
     // 获取session
     @Override
     protected Session doReadSession(Serializable sessionId) {
-        logger.debug("获取session:{}", sessionId);
+        logger.info("===readSession:{}", sessionId.toString());
         // 先从缓存中获取session，如果没有再去数据库中获取
-        Session session = super.doReadSession(sessionId);
+        Session session = null;
         if (session == null) {
-          //  session = (Session) redisTemplate.opsForValue().get(prefix + sessionId.toString());
-            session = (Session) baseRedisDao.get(prefix + sessionId.toString());
+//            session = (Session) redisTemplate.opsForValue().get(getKey(sessionId.toString()));
+            session = (Session) baseRedisDao.get(getKey(sessionId.toString()));
         }
         return session;
     }
 
     // 更新session的最后一次访问时间
     @Override
-    protected void doUpdate(Session session) {
-        super.doUpdate(session);
-        logger.debug("获取session:{}", session.getId());
-        String key = prefix + session.getId().toString();
-//        if (!redisTemplate.hasKey(key)) {
-//            redisTemplate.opsForValue().set(key, session);
-//        }
-//        redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
-        if(!baseRedisDao.exists(key)){
-            baseRedisDao.set(key  ,session );
+    public void update(Session session) {
+        if(session == null || session.getId() == null){
+            logger.info("===updateSession:{}", "session == null || session.getId() == null");
+            return ;
         }
-        baseRedisDao.setExpireTime(key, expireTime);
+        logger.info("===updateSession:{}", session.getId().toString());
+        String key = getKey(session.getId().toString());
+//        redisTemplate.opsForValue().set(key, session, redisConfig.getSessionTime(), TimeUnit.MINUTES);
+        baseRedisDao.set(key ,session,TIMEOUT );
     }
 
     // 删除session
     @Override
-    protected void doDelete(Session session) {
-        logger.debug("删除session:{}", session.getId());
-        super.doDelete(session);
-//        redisTemplate.delete(prefix + session.getId().toString());
-        baseRedisDao.remove(prefix + session.getId().toString());
+    public void delete(Session session) {
+        logger.info("===delSession:{}", session.getId());
+        baseRedisDao.remove(getKey(session.getId().toString()));
+    }
+
+    @Override
+    public Collection<Session> getActiveSessions() {
+        Collection<Session> result = new ArrayList<>();
+        List<String> keys = baseRedisDao.getByRegular(getKey("*"));
+        Iterator<String> iter = keys.iterator();
+        while (iter.hasNext()) {
+            String key = iter.next();
+            Session session =  (Session) baseRedisDao.get(getKey(key));
+            logger.info("===getActiveSessions session "/* + session.getAttribute(Contacts.SESSION_SUBJECT)*/);
+            result.add(session);
+        }
+        return result;
     }
 }
