@@ -16,6 +16,7 @@ import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -24,7 +25,7 @@ import java.util.Collection;
 /**
  * 自定义授权会话管理类
  */
-//@Component
+//@Repository("shiroSessionDAO")
 public class RedisSessionDAO2 extends AbstractSessionDAO /*implements SessionDAO */{
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -57,8 +58,6 @@ public class RedisSessionDAO2 extends AbstractSessionDAO /*implements SessionDAO
             }catch (Exception e){
                 System.out.println("RedisSessionDAO2  update>> " + e.getMessage());
             }
-
-
 			// 获取登录者编号
 			String principalId = (String) session.getAttribute(Principal.Principal_SESSION_KEY);
             baseRedisDao.addMap(sessionKeyPrefix, session.getId().toString(),
@@ -108,7 +107,7 @@ public class RedisSessionDAO2 extends AbstractSessionDAO /*implements SessionDAO
 	}
 
 	@Override
-	protected Session doReadSession(Serializable sessionId) {
+	protected synchronized Session doReadSession(Serializable sessionId) {
 
 		Session s = null;
 		HttpServletRequest request = Servlets.getRequest();
@@ -136,15 +135,7 @@ public class RedisSessionDAO2 extends AbstractSessionDAO /*implements SessionDAO
 		}
 		return session;
 	}
-	
-	@Override
-    public Session readSession(Serializable sessionId) throws UnknownSessionException {
-    	try{
-        	return super.readSession(sessionId);
-    	}catch (UnknownSessionException e) {
-			return null;
-		}
-    }
+
 
 
 }

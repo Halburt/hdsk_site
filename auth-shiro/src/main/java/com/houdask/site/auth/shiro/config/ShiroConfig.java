@@ -4,12 +4,15 @@ import com.houdask.site.auth.shiro.manager.MyRedisCacheManager;
 import com.houdask.site.auth.shiro.realm.CustomSystemCredentialsMatcher;
 import com.houdask.site.auth.shiro.realm.MyShiroRealm;
 import com.houdask.site.auth.shiro.session.CustomSessionListener;
+import com.houdask.site.auth.shiro.session.IdGen;
+import com.houdask.site.auth.shiro.session.RedisSessionDAO;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
+import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -33,33 +36,6 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
-    /*@Bean("shiroFilter")
-    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
-        ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
-        shiroFilter.setSecurityManager(securityManager);
-        shiroFilter.setLoginUrl("/login.html");
-        //shiroFilter.setSuccessUrl("/index.html");
-        shiroFilter.setUnauthorizedUrl("/");
-
-        Map<String, String> filterMap = new LinkedHashMap<>();
-        filterMap.put("/public/**", "anon");
-        filterMap.put("/webjars/**", "anon");
-        filterMap.put("/api/**", "anon");
-
-        //swagger配置
-        filterMap.put("/swagger**", "anon");
-        filterMap.put("/v2/api-docs", "anon");
-        filterMap.put("/swagger-resources/configuration/ui", "anon");
-
-        filterMap.put("/login.html", "anon");
-        filterMap.put("/login/*", "anon");
-        filterMap.put("/esbook/*", "anon");
-//        filterMap.put("/captcha.jpg", "anon");
-        filterMap.put("/**", "authc");
-        shiroFilter.setFilterChainDefinitionMap(filterMap);
-
-        return shiroFilter;
-    }*/
     /**
      * anon（匿名）  org.apache.shiro.web.filter.authc.AnonymousFilter
      * authc（身份验证）       org.apache.shiro.web.filter.authc.FormAuthenticationFilter
@@ -84,10 +60,9 @@ public class ShiroConfig {
 //        shiroFilterFactoryBean.setFilters();
 
         Map<String, String> filterChainDefinitionMap =  new LinkedHashMap<String, String>();
-//        filterChainDefinitionMap.put("/userLogin", "anon");
-//        filterChainDefinitionMap.put("/toLogin", "anon");
-        filterChainDefinitionMap.put("/", "anon");
-        filterChainDefinitionMap.put("/*", "anon");
+        filterChainDefinitionMap.put("/userLogin", "anon");
+        filterChainDefinitionMap.put("/toLogin", "anon");
+        filterChainDefinitionMap.put("/hello", "authc");
         filterChainDefinitionMap.put("/**", "anon");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
@@ -163,16 +138,14 @@ public class ShiroConfig {
     }
 
  /*<!-- 自定义Session存储容器 -->*/
-
-   /* @Bean(name="shiroSessionDAO")
-    public  SessionDAO getSessionDAO(@Qualifier("myRedisCacheManager") CacheManager redisCacheManager){
-        SessionDAO sessionDAO = new RedisSessionDAO();
-        sessionDAO.setSessionIdGenerator(new IdGen());
-//        sessionDAO.setActiveSessionsCacheName("shiro-session:");
-//        sessionDAO.setCacheManager(redisCacheManager );
-//        sessionDAO.setPrefix("shiro-session_");
-        return sessionDAO;
-    }*/
+   @Bean(name="shiroSessionDAO")
+    public  SessionDAO getSessionDAO(@Qualifier("myRedisCacheManager") CacheManager redisCacheManager,
+    @Qualifier("sessionIdGenerator") SessionIdGenerator sessionIdGenerator ){
+       RedisSessionDAO sessionDAO = new RedisSessionDAO();
+       sessionDAO.setSessionIdGenerator(sessionIdGenerator);
+       sessionDAO.setSessionPrefix("shiro-session_");
+       return sessionDAO;
+    }
     /*
         <!-- 会话验证调度器 -->
    */
@@ -186,8 +159,9 @@ public class ShiroConfig {
     缓存管理器
 */
     @Bean(name = "myRedisCacheManager")
-    public MyRedisCacheManager redisCacheManager() {
-        return new MyRedisCacheManager();
+    public  CacheManager redisCacheManager() {
+        MyRedisCacheManager cacheManager = new MyRedisCacheManager();
+        return cacheManager;
     }
 /*
     	<!-- AOP式方法级权限检查  -->
@@ -217,6 +191,8 @@ public class ShiroConfig {
         shiroRealm.setCredentialsMatcher( hashedCredentialsMatcher);
         shiroRealm.setAuthenticationCacheName("shiro-realm-");
         shiroRealm.setCachingEnabled(true);
+        shiroRealm.setAuthorizationCacheName("shiro-authorization-cache-");
+//        shiro_cache_com.houdask.site.auth.shiro.realm.MyShiroRealm.authorizationCache
         return shiroRealm;
     }
 

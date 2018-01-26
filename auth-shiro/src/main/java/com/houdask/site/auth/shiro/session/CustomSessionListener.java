@@ -1,7 +1,9 @@
 package com.houdask.site.auth.shiro.session;
 
 
+import com.houdask.site.auth.shiro.token.Principal;
 import com.houdask.site.common.redis.base.BaseRedisDao;
+import com.houdask.site.common.utils.ObjectUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListener;
 import org.slf4j.Logger;
@@ -19,7 +21,7 @@ public class CustomSessionListener implements SessionListener {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Resource
-    private BaseRedisDao baseRedisDao;
+    private RedisSessionDAO redisSessionDAO;
 
     /**
      * 一个回话的生命周期开始
@@ -40,6 +42,8 @@ public class CustomSessionListener implements SessionListener {
     public void onExpiration(Session session) {
         logger.info("onExpiration:{}", session.getId());
 //        TODO baseRedisDao.remove();
+
+        redisSessionDAO.delete(session);
     }
 
 }

@@ -1,13 +1,20 @@
 package com.houdask.site.auth.shiro.session;
 
+import com.alibaba.fastjson.JSONObject;
+import com.houdask.site.auth.shiro.token.Principal;
+import com.houdask.site.auth.shiro.util.Servlets;
 import com.houdask.site.common.redis.base.BaseRedisDao;
+import com.houdask.site.common.utils.ObjectUtils;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.SimpleSession;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
+import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,43 +24,63 @@ import java.util.List;
 /**
  *
  */
-@Repository("shiroSessionDAO")
+//@Repository("shiroSessionDAO")
 public class RedisSessionDAO extends AbstractSessionDAO {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private static final String sessionPrefix = "shiroSession_";
+    private   String sessionPrefix = "shiroSession_";
+    private   String All_SESSION = "All_SESSION_";
     private static final long TIMEOUT = 1800;
+
+
+    @Autowired
+    private SessionIdGenerator sessionIdGenerator;
 
 
     @Autowired
     private BaseRedisDao baseRedisDao;
 
 
-    private String getKey(String originalKey) {
+    private    String getKey(String originalKey) {
         return sessionPrefix + originalKey;
     }
-
     // 创建session，保存到数据库
     @Override
     protected Serializable doCreate(Session session) {
         Serializable sessionId = this.generateSessionId(session);
         this.assignSessionId(session, sessionId);
-        logger.info("===createSession:{}", sessionId.toString());
-//        redisTemplate.opsForValue().set(getKey(sessionId.toString()), session, redisConfig.getSessionTime(), TimeUnit.MINUTES);
-        baseRedisDao.set(getKey(sessionId.toString()),session,TIMEOUT );
+        baseRedisDao.set(getKey(sessionId.toString()), ObjectUtils.serialize( session),TIMEOUT );
         return sessionId;
     }
 
     // 获取session
     @Override
     protected Session doReadSession(Serializable sessionId) {
-        logger.info("===readSession:{}", sessionId.toString());
+        SimpleSession session = null;
+        HttpServletRequest request = Servlets.getRequest();
+        if (request != null){
+            String uri = request.getServletPath();
+            // 如果是静态文件，则不获取SESSION
+            if (Servlets.isStaticFile(uri)){
+                return null;
+            }
+            session = (SimpleSession) request.getAttribute("session_"+sessionId);
+        }
+        if (session != null){
+            return session;
+        }
+
         // 先从缓存中获取session，如果没有再去数据库中获取
-        Session session = null;
+
         if (session == null) {
-//            session = (Session) redisTemplate.opsForValue().get(getKey(sessionId.toString()));
-            session = (Session) baseRedisDao.get(getKey(sessionId.toString()));
+            byte[] bytes = (byte[]) baseRedisDao.get(getKey(sessionId.toString()));
+            if(bytes != null){
+                session = (SimpleSession) ObjectUtils.unserialize(bytes);
+            }
+        }
+		if (request != null && session != null){
+          request.setAttribute("session_"+sessionId, session);
         }
         return session;
     }
@@ -62,20 +89,23 @@ public class RedisSessionDAO extends AbstractSessionDAO {
     @Override
     public void update(Session session) {
         if(session == null || session.getId() == null){
-            logger.info("===updateSession:{}", "session == null || session.getId() == null");
             return ;
         }
-        logger.info("===updateSession:{}", session.getId().toString());
         String key = getKey(session.getId().toString());
-//        redisTemplate.opsForValue().set(key, session, redisConfig.getSessionTime(), TimeUnit.MINUTES);
-        baseRedisDao.set(key ,session,TIMEOUT );
+        baseRedisDao.set(key , ObjectUtils.serialize( session),TIMEOUT );
+        // 获取登录者编号
+        String principalId = (String) session.getAttribute(Principal.Principal_SESSION_KEY);
+        if(principalId != null){
+            baseRedisDao.addMap(All_SESSION, session.getId().toString(),
+                    principalId + "|" + session.getTimeout() + "|" + session.getLastAccessTime().getTime());
+        }
     }
 
     // 删除session
     @Override
     public void delete(Session session) {
-        logger.info("===delSession:{}", session.getId());
         baseRedisDao.remove(getKey(session.getId().toString()));
+        baseRedisDao.removeMapField(All_SESSION, session.getId().toString());
     }
 
     @Override
@@ -85,10 +115,21 @@ public class RedisSessionDAO extends AbstractSessionDAO {
         Iterator<String> iter = keys.iterator();
         while (iter.hasNext()) {
             String key = iter.next();
-            Session session =  (Session) baseRedisDao.get(getKey(key));
-            logger.info("===getActiveSessions session "/* + session.getAttribute(Contacts.SESSION_SUBJECT)*/);
-            result.add(session);
+            byte[] bytes = (byte[]) baseRedisDao.get(getKey(key));
+            if(bytes != null){
+                SimpleSession session = (SimpleSession) ObjectUtils.unserialize(bytes);
+                result.add(session);
+            }
         }
         return result;
+    }
+
+
+    public String getSessionPrefix() {
+        return sessionPrefix;
+    }
+
+    public void setSessionPrefix(String sessionPrefix) {
+        this.sessionPrefix = sessionPrefix;
     }
 }

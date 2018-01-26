@@ -11,11 +11,15 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.apache.shiro.subject.Subject;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -34,24 +38,39 @@ public class UserWebController {
         return "userList";
     }
 
-    @RequestMapping(value = "/login" )
+    @RequestMapping(value = "/login"  ,method = RequestMethod.GET)
     public String  login(  Model model) {
         return "userLogin";
     }
 
     @RequestMapping(value = "/index" )
     public String  index(  Model model) {
+        model.addAttribute("hello","index");
+        return "hello";
+    }
+    @RequiresPermissions(value="user")
+    @RequestMapping(value = "/hello" )
+    public String  indhelloex(  Model model) {
         model.addAttribute("hello","hello");
         return "hello";
     }
-    @RequestMapping(value = "/ajaxLogin" )
-    public String ajaxLogin(String username , String password, Model model) {
+    @RequestMapping(value = "/userLogin"  ,method = RequestMethod.GET)
+    public String  userLogin(  Model model) {
+        return "userLogin";
+    }
+
+    @RequestMapping(value = "/toLogin" ,method = RequestMethod.POST)
+    public String ajaxLogin(String username , String password, Model model ) {
+        System.out.println("开始登陆哈====");
         JSONObject jsonObject = new JSONObject();
+        Subject subject = SecurityUtils.getSubject();
         try {
-            Subject subject = SecurityUtils.getSubject();
             SysAuthToken token = new SysAuthToken(  username,   password, LoginWay.WEB );
             Principal principal =   new Principal(token);
-            principal.setId("1");
+            Serializable sessionId = subject.getSession(false).getId();
+            System.out.println("toLogin sessionId"+ sessionId);
+            principal.setSessionId(sessionId == null ? "" : sessionId.toString());
+            principal.setId(username);
             principal.setRealname(username+"Realname");
             principal.setNickname(username+"Nickname");
             token.setAuthPrincipal(principal);
@@ -67,7 +86,8 @@ public class UserWebController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        model.addAttribute("hello",jsonObject);
+        model.addAttribute("hello",jsonObject  );
+        subject.checkPermissions("user");
         return "hello";
     }
 }

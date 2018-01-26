@@ -74,6 +74,7 @@ public class SessionManager extends DefaultWebSessionManager {
 		}
 	}
 
+
     public Date getStartTimestamp(SessionKey key) {
     	try{
     		return super.getStartTimestamp(key);

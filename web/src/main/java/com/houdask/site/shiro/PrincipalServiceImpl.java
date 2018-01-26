@@ -5,13 +5,14 @@ import com.houdask.site.auth.shiro.token.PrincipalService;
 import com.houdask.site.auth.shiro.token.SysAuthToken;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Component
 public class PrincipalServiceImpl implements PrincipalService {
     @Override
     public Collection<String> findPermissions(Principal principal) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
