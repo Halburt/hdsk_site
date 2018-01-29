@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.houdask.site.common.web.BaseController;
 import com.houdask.site.user.entity.User;
 import com.houdask.site.user.service.IUserServiceFacade;
+import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,19 +19,36 @@ import java.util.UUID;
  */
 @RequestMapping(value = "/api/user" )
 @RestController
+@ApiModel
 public class UserController /* extends BaseController*/{
 
     @Reference(version = "1.0.0",check = false)
     private IUserServiceFacade userService;
 
+    @ApiOperation("获取所有用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query",name="pageNum",dataType="String",required=true,value="页码",defaultValue="1"),
+            @ApiImplicitParam(paramType="query",name="pageSize",dataType="String",required=true,value="每页页数",defaultValue="2")
+    })
+    @ApiResponses({
+            @ApiResponse(response = User.class, responseContainer="List", code = 200, message = "请求成功"),
+            @ApiResponse(code=400,message="请求参数没填好"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对")
+
+    })
     @RequestMapping(value = "/all" )
-    public String findAllUser(int pageNum, int pageSize) {
+    public List findAllUser(int pageNum, int pageSize) {
         List list = userService.findAllUser(pageNum, pageSize);
-        JSONObject json = new JSONObject();
-        json.put("data", list);
-        return json.toString();
+        return list;
     }
 
+    @ApiOperation("添加用户信息")
+    @ApiResponses({
+            @ApiResponse(response = User.class, code = 200, message = "请求成功"),
+            @ApiResponse(code=400,message="请求参数没填好"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对")
+
+    })
     @RequestMapping(value = "/add" )
     public User addUser(User user) {
         user = new User();

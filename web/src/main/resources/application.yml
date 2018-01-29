@@ -19,7 +19,7 @@ spring:
       # 响应页面默认后缀
       suffix: .jsp
 logging:
-  path: log
+  path:  logs/web
   config: classpath:web-logback.xml
 #logging.config=classpath:pm-logback.xml
 #logging.path=log

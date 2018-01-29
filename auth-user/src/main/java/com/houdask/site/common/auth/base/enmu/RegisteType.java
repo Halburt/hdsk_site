@@ -1,4 +1,4 @@
-package com.houdask.site.auth.shiro.enmu;
+package com.houdask.site.common.auth.base.enmu;
 
 /**
  * 注册方式

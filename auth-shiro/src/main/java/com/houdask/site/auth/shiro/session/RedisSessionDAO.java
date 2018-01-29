@@ -1,7 +1,6 @@
 package com.houdask.site.auth.shiro.session;
 
-import com.alibaba.fastjson.JSONObject;
-import com.houdask.site.auth.shiro.token.Principal;
+import com.houdask.site.common.auth.base.Principal;
 import com.houdask.site.auth.shiro.util.Servlets;
 import com.houdask.site.common.redis.base.BaseRedisDao;
 import com.houdask.site.common.utils.ObjectUtils;
@@ -12,7 +11,6 @@ import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;

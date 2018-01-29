@@ -1,8 +1,7 @@
-package com.houdask.site.auth.shiro.token;
+package com.houdask.site.common.auth.base;
 
-import com.alibaba.fastjson.JSONObject;
-import com.houdask.site.auth.shiro.enmu.LoginWay;
-import com.houdask.site.auth.shiro.enmu.RegisteType;
+import com.houdask.site.common.auth.base.enmu.LoginWay;
+import com.houdask.site.common.auth.base.enmu.RegisteType;
 
 import java.io.Serializable;
 
@@ -34,16 +33,16 @@ public  class Principal implements Serializable {
     private RegisteType registeType;
 
     private String sessionId ;//session id
+
+    public Principal() {
+    }
+
     public Principal(String id, String realname, String nickname, LoginWay loginWay, RegisteType registeType) {
         this.id = id;
         this.realname = realname;
         this.nickname = nickname;
         this.loginWay = loginWay;
         this.registeType = registeType;
-    }
-    public Principal(SysAuthToken token){
-        this.loginWay = token.getLoginWay();
-        this.registeType = token.getRegisteType();
     }
 
     public String getId() {

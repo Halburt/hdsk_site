@@ -3,20 +3,19 @@ package com.houdask.site.user.web;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONObject;
-import com.houdask.site.auth.shiro.enmu.LoginWay;
-import com.houdask.site.auth.shiro.token.Principal;
 import com.houdask.site.auth.shiro.token.SysAuthToken;
+import com.houdask.site.common.auth.base.Principal;
+import com.houdask.site.common.auth.base.enmu.LoginWay;
 import com.houdask.site.user.service.IUserServiceFacade;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.Serializable;
@@ -66,7 +65,7 @@ public class UserWebController {
         Subject subject = SecurityUtils.getSubject();
         try {
             SysAuthToken token = new SysAuthToken(  username,   password, LoginWay.WEB );
-            Principal principal =   new Principal(token);
+            Principal principal =  token.newPrincipal();
             Serializable sessionId = subject.getSession(false).getId();
             System.out.println("toLogin sessionId"+ sessionId);
             principal.setSessionId(sessionId == null ? "" : sessionId.toString());

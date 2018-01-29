@@ -20,6 +20,7 @@
         <dubbo-spring-boot>1.0.0</dubbo-spring-boot>
         <fastjson.version>1.2.37</fastjson.version>
         <shiro.version>1.4.0</shiro.version>
+        <swagger.version>2.5.0</swagger.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -34,18 +35,15 @@
         <module>user-facade</module>
         <module>user-service</module>
         <module>common-redis</module>
-        <module>auth-token</module>
-
         <module>auth-shiro</module>
-
         <module>common-utils</module>
         <module>sys-user</module>
         <module>auth-jwt</module>
         <module>auth-user</module>
         <module>web</module>
-<!--
-        <module>auth-shiro-spring-boot</module>
--->
+        <module>common-activemq</module>
+        <module>common-swagger</module>
+
     </modules>
 
 </project>

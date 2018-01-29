@@ -1,5 +1,7 @@
 package com.houdask.site.auth.shiro.token;
 
+import com.houdask.site.common.auth.base.Principal;
+
 import java.util.Collection;
 
 /**

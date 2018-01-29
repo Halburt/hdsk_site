@@ -1,7 +1,8 @@
 package com.houdask.site.auth.shiro.token;
 
-import com.houdask.site.auth.shiro.enmu.LoginWay;
-import com.houdask.site.auth.shiro.enmu.RegisteType;
+import com.houdask.site.common.auth.base.enmu.LoginWay;
+import com.houdask.site.common.auth.base.enmu.RegisteType;
+import com.houdask.site.common.auth.base.Principal;
 import org.apache.shiro.authc.UsernamePasswordToken;
 
 import java.io.Serializable;
@@ -62,6 +63,17 @@ public class SysAuthToken extends UsernamePasswordToken  implements Serializable
         this.loginWay = loginWay;
         this.thirdId = thirdId;
         this.registeType = registeType;
+    }
+
+    public SysAuthToken(String username, String password, boolean rememberMe) {
+        super(username, password, rememberMe);
+    }
+
+    public Principal newPrincipal(){
+        Principal p = new Principal();
+        p.setLoginWay( this.loginWay);
+        p.setRegisteType(this.registeType );
+        return p;
     }
 
     public LoginWay getLoginWay() {

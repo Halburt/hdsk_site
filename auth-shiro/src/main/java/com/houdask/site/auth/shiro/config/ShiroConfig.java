@@ -205,7 +205,6 @@ public class ShiroConfig {
      */
     @Bean("hashedCredentialsMatcher")
     public HashedCredentialsMatcher getHashedCredentialsMatcher() {
-//        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         CustomSystemCredentialsMatcher hashedCredentialsMatcher = new CustomSystemCredentialsMatcher("md5");
         hashedCredentialsMatcher.setHashAlgorithmName("md5");//散列算法:这里使用MD5算法;
         hashedCredentialsMatcher.setHashIterations(2);//散列的次数，比如散列两次，相当于 md5(md5(""));

@@ -1,6 +1,6 @@
 package com.houdask.site.shiro;
 
-import com.houdask.site.auth.shiro.token.Principal;
+import com.houdask.site.common.auth.base.Principal;
 import com.houdask.site.auth.shiro.token.PrincipalService;
 import com.houdask.site.auth.shiro.token.SysAuthToken;
 import org.springframework.stereotype.Component;

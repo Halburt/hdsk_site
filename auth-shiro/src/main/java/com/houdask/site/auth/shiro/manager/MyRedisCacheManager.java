@@ -32,7 +32,6 @@ public class MyRedisCacheManager implements CacheManager {
 
 	@Override
 	public <K, V> Cache<K, V> getCache(String name) throws CacheException {
-		System.out.println("===========getCache==="+name);
 		Cache cache = caches.get(name);
 		if(cache == null){
 			cache = new MyRedisCache<K, V>(cacheKeyPrefix + name);
@@ -68,7 +67,6 @@ public class MyRedisCacheManager implements CacheManager {
 				return null;
 			}
 			V value = null;
-			System.out.println("put(K key:"+key.toString());
 			try {
                 value  = (V) baseRedisDao.getMapField(cacheKeyName,key.toString());
  			} catch (Exception e) {
@@ -83,8 +81,6 @@ public class MyRedisCacheManager implements CacheManager {
 				return null;
 			}
 			try {
-				System.out.println("put(K key:"+key.toString());
-				System.out.println("put(value:"+value.toString());
                 baseRedisDao.addMap(cacheKeyName,key.toString(),value);
 				logger.debug("put {} {} = {}", cacheKeyName, key, value);
 			} catch (Exception e) {

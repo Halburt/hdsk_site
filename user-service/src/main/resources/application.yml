@@ -3,7 +3,7 @@ server:
   port: ${random.int[9000,9999]}
  # context-path: /user-service/
 
-logging.path: logs
+logging.path: logs/user-service
 mybatis:
     mapper-locations: classpath:mapping/*.xml
     type-aliases-package: com.houdask.site.user.dao
