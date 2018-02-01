@@ -21,7 +21,7 @@
         <fastjson.version>1.2.37</fastjson.version>
         <shiro.version>1.4.0</shiro.version>
         <swagger.version>2.5.0</swagger.version>
-    </properties>
+     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -43,7 +43,20 @@
         <module>web</module>
         <module>common-activemq</module>
         <module>common-swagger</module>
+        <module>generate-code</module>
+        <module>common-base-service</module>
+        <module>test-address</module>
 
     </modules>
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

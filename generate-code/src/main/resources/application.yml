@@ -1,0 +1,49 @@
+server:
+  port: 12345
+ # port: ${random.int[9000,9999]}
+ # context-path: /user-service/
+
+logging:
+  path: logs/generate-code
+
+mybatis:
+    mapper-locations: classpath:mapping/gen/*.xml
+    type-aliases-package: com.houdask.site
+
+#pagehelper分页
+pagehelper:
+   helperDialect: mysql
+   reasonable: true
+   supportMethodsArguments: true
+   params: count=countSql
+spring:
+    mvc:
+      view:
+      # 页面默认前缀目录
+        prefix: /WEB-INF/jsp/
+        # 响应页面默认后缀
+        suffix: .jsp
+    datasource:
+       name: springbootservice
+       url: jdbc:mysql://127.0.0.1:3306/hdsk-site
+       username: root
+       password: root
+       type: com.alibaba.druid.pool.DruidDataSource
+       driver-class-name: com.mysql.jdbc.Driver
+       filters:  stat
+       maxActive:  20
+       initialSize:  1
+       maxWait: 60000
+       minIdle: 1
+       timeBetweenEvictionRunsMillis: 60000
+       minEvictableIdleTimeMillis: 300000
+       validationQuery: select 'x'
+       testWhileIdle: true
+       testOnBorrow: false
+       testOnReturn: false
+       poolPreparedStatements: true
+       maxOpenPreparedStatements: 20
+
+#https://github.com/JeffLi1993/springboot-learning-example/blob/master/springboot-dubbo-server
+## Dubbo 服务提供者配置
+
