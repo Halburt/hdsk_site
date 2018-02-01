@@ -4,19 +4,20 @@ import com.alibaba.fastjson.parser.ParserConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
 
 @Configuration
-public class RedisConfig {
+public class RedisConfig   {
     @Autowired
     private RedisConfigProperties redis;
-
     @Bean
     public RedisSerializer fastJson2JsonRedisSerializer() {
         ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
@@ -49,13 +50,13 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory, RedisSerializer fastJson2JsonRedisSerializer) {
+    public RedisTemplate<String,String> redisTemplate(RedisConnectionFactory factory, RedisSerializer fastJson2JsonRedisSerializer) {
         StringRedisTemplate redisTemplate = new StringRedisTemplate(factory);
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         //redis   开启事务
         redisTemplate.setEnableTransactionSupport(true);
         //hash  使用jdk  的序列化
-        redisTemplate.setHashValueSerializer(fastJson2JsonRedisSerializer/*new JdkSerializationRedisSerializer()*/);
+        redisTemplate.setHashValueSerializer(fastJson2JsonRedisSerializer);
         //StringRedisSerializer  key  序列化
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         //keySerializer  对key的默认序列化器。默认值是StringSerializer
@@ -65,4 +66,5 @@ public class RedisConfig {
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
+
 }

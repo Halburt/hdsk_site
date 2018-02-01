@@ -11,6 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
     <artifactId>common-db</artifactId>
+    <description>Mybatis自动生成代码插件（不是很理想的一个插件）</description>
     <dependencies>
     <!--    <dependency>
             <groupId>org.springframework.boot</groupId>
