@@ -8,6 +8,9 @@ import com.houdask.site.user.entity.User;
 import com.houdask.site.user.service.HdskUserService;
 import com.houdask.site.common.redis.base.BaseRedisDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +23,8 @@ import java.util.Map;
 @Service
 public class HdskUserServiceImpl  extends BaseServiceImpl<UserMapper,User> implements HdskUserService {
 
-   @Autowired
- 	private BaseRedisDao baseRedisDao;
+    @Autowired
+    private  BaseRedisDao baseRedisDao;
 
     /**
      * 获取redis中数据
@@ -31,11 +34,23 @@ public class HdskUserServiceImpl  extends BaseServiceImpl<UserMapper,User> imple
 
         return baseRedisDao.getMap("user");
     }
+    /*
+     * @Cacheable 应用到读取数据的方法上，先从缓存中读取，如果没有再从DB获取数据，然后把数据添加到缓存中
+     * unless 表示条件表达式成立的话不放入缓存
+     */
 
     public int addUser(User user) {
-        baseRedisDao.addMap("user",user.getId(),user,5000);
+//        baseRedisDao.addMap("user",user.getId(),user,5000);
         return dao.insert(user);
     }
+
+    @Override
+//    @CachePut(value = "userCache", key ="#id" )
+   // @Cacheable(value = "people", key = "#id")
+    public User get(String id) {
+        return dao.get(id);
+    }
+
 
     /*
      * 这个方法中用到了我们开头配置依赖的分页插件pagehelper

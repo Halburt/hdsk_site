@@ -1,13 +1,17 @@
 server:
- # port: 9000
-  port: ${random.int[9000,9999]}
+  port: 9000
+  #port: ${random.int[9000,9999]}
  # context-path: /user-service/
 
-logging.path: logs/user-service
+logging:
+  path: logs/user-service
+config: classpath:user-service-logback.xml
+
 mybatis:
     mapper-locations: classpath:mapping/*.xml
-    type-aliases-package: com.houdask.site.user.dao
-
+    type-aliases-package: com.houdask.site
+cache:
+    names: userCache
 #pagehelper分页
 pagehelper:
    helperDialect: mysql

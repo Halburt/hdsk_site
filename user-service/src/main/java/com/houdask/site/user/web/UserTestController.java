@@ -42,6 +42,10 @@ public class UserTestController extends BaseController{
 
         return user;
     }
+    @RequestMapping("/user/get")
+    public User get(String id ){
+       return  hdskUserService.get(id);
+    }
     @RequestMapping("/user/cache")
     public String getCacheUser(){
         Map list =  hdskUserService.getCacheUser( );

@@ -1,31 +1,22 @@
 package com.houdask.site.user;
 
-import org.mybatis.spring.annotation.MapperScan;
+import com.houdask.site.common.annotation.HdSpringBootService;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.ComponentScan;
-@EnableAutoConfiguration
-@MapperScan("com.houdask.site.user.dao")//将项目中对应的mapper类的路径加进来就可以了
-@SpringBootApplication
-@ComponentScan("com.houdask.site")
-public class UserServiceApp extends SpringBootServletInitializer {
-/*
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(UserServiceApp.class);
-    }
+import org.springframework.cache.CacheManager;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.util.Arrays;
+@Configuration
+@HdSpringBootService("com.houdask.site.user.dao")
+public class UserServiceApp {
     public static void main(String[] args) {
         SpringApplication.run(UserServiceApp.class, args);
     }
-}*/
-//jar包
 
-    public static void main(String[] args) {
-        SpringApplication.run(UserServiceApp.class, args);
-    }
 }
 
