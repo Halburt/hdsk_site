@@ -33,9 +33,6 @@ public class User  extends BaseEntity {
 
     private String remarks;
 
-    private String delFlag;
-
-
     public String getLoginName() {
         return loginName;
     }
@@ -132,11 +129,4 @@ public class User  extends BaseEntity {
         this.remarks = remarks == null ? null : remarks.trim();
     }
 
-    public String getDelFlag() {
-        return delFlag;
-    }
-
-    public void setDelFlag(String delFlag) {
-        this.delFlag = delFlag == null ? null : delFlag.trim();
-    }
 }
