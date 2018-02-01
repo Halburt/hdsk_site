@@ -28,6 +28,15 @@ public abstract class BaseServiceImpl<D extends BaseDao<T> ,T extends  BaseEntit
         return dao.findList(entity);
     }
 
+    public int save(T entity) {
+        if(entity.getId() !=  null){
+            return  update(entity);
+        }else{
+            return  insert(entity);
+        }
+
+    }
+
     public int insert(T entity) {
         return dao.insert(entity);
     }
@@ -35,4 +44,13 @@ public abstract class BaseServiceImpl<D extends BaseDao<T> ,T extends  BaseEntit
     public int update(T entity) {
         return dao.update(entity);
     }
+
+    public int delete(T entity) {
+        return dao.delete(entity);
+    }
+
+    public int delete(String id) {
+        return dao.delete(id);
+    }
+
 }

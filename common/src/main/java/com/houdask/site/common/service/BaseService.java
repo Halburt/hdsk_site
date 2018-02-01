@@ -1,6 +1,5 @@
 package com.houdask.site.common.service;
 
-import com.houdask.site.common.dao.BaseDao;
 import com.houdask.site.common.entity.BaseEntity;
 
 import java.util.List;
@@ -35,8 +34,19 @@ public interface BaseService< T extends BaseEntity> {
     /**
      * 保存数据
      */
+    public int save(T entity) ;
+    /**
+     * 保存数据
+     */
+
     public int insert(T entity) ;
 
     public int update(T entity) ;
 
+    /**
+     * 删除
+     * @param entity
+     * @return
+     */
+    public int delete(T entity) ;
 }

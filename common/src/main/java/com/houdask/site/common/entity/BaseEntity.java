@@ -1,5 +1,5 @@
 /**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
+ * halburt
  */
 package com.houdask.site.common.entity;
 
@@ -25,7 +25,9 @@ public abstract class BaseEntity  implements Serializable {
 	 */
 	protected String id;
 
-	
+	protected  Page page;
+    private String delFlag;
+
 	/**
 	 * 自定义SQL（SQL标识，SQL内容）
 	 */
@@ -48,4 +50,21 @@ public abstract class BaseEntity  implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+
+	public Page getPage() {
+		return page;
+	}
+
+	public void setPage(Page page) {
+		this.page = page;
+	}
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag == null ? null : delFlag.trim();
+    }
+
 }

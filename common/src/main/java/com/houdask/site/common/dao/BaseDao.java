@@ -69,7 +69,7 @@ public interface BaseDao<T extends BaseEntity> {
 	 * @see public int delete(T entity)
 	 * @return
 	 */
-	@Deprecated
+//	@Deprecated
 	public int delete(String id);
 	
 	/**
