@@ -1,5 +1,5 @@
 /**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
+ * halburt
  */
 package com.houdask.site.common.annotation;
 
@@ -9,6 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,11 +21,12 @@ import org.springframework.stereotype.Component;
 @Target(ElementType.TYPE)
 @Documented
 @Component
+@Mapper
 public @interface MyBatisDao {
 	
 	/**
 	 * The value may indicate a suggestion for a logical component name,
-	 * to be turned into a Spring bean in case of an autodetected component.
+	 * to be turned into a Spring bean in case of annotation autodetected component.
 	 * @return the suggested component name, if any
 	 */
 	String value() default "";

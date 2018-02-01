@@ -17,7 +17,7 @@ import java.util.UUID;
     演示duboox 消费者 Reference调用
  * @author Halburt 2018-01-16
  */
-@RequestMapping(value = "/api/user" )
+@RequestMapping(value = "${adminPath}/api/user" )
 @RestController
 @ApiModel
 public class UserController /* extends BaseController*/{
