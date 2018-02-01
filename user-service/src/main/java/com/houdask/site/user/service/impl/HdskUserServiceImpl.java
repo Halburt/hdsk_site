@@ -2,15 +2,12 @@ package com.houdask.site.user.service.impl;
 
 
 import com.github.pagehelper.PageHelper;
+import com.houdask.site.common.redis.base.BaseRedisDao;
 import com.houdask.site.common.service.impl.BaseServiceImpl;
 import com.houdask.site.user.dao.UserMapper;
 import com.houdask.site.user.entity.User;
 import com.houdask.site.user.service.HdskUserService;
-import com.houdask.site.common.redis.base.BaseRedisDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,14 +37,15 @@ public class HdskUserServiceImpl  extends BaseServiceImpl<UserMapper,User> imple
      */
 
     public int addUser(User user) {
-//        baseRedisDao.addMap("user",user.getId(),user,5000);
+        baseRedisDao.addMap("user",user.getId(),user,5000);
         return dao.insert(user);
     }
 
     @Override
-//    @CachePut(value = "userCache", key ="#id" )
-   // @Cacheable(value = "people", key = "#id")
+//    @CachePut(value = RedisKeys._CACHE_TEST, key ="#id" )
+//    @Cacheable(value = RedisKeys._CACHE_TEST, key = "2")
     public User get(String id) {
+
         return dao.get(id);
     }
 

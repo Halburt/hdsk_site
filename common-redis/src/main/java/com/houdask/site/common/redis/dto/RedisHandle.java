@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 @Component
 public class RedisHandle implements BaseRedisDao<String, Object> {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Resource(name = "redisTemplate")
+    @Resource
     protected RedisTemplate redisTemplate;
     /**
      * 出异常，重复操作的次数
@@ -483,6 +483,7 @@ public class RedisHandle implements BaseRedisDao<String, Object> {
 
 
     public void addMap(String key, String field, Object value, long time) {
+        logger.info("key:{} field:{} value :{}",key,field,value);
         redisTemplate.boundHashOps(key).put(field, value);
         redisTemplate.boundHashOps(key).expire(time, TimeUnit.SECONDS);
     }

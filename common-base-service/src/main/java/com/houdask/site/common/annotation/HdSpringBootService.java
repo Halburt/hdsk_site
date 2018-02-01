@@ -20,8 +20,8 @@ import java.lang.annotation.*;
 @EnableAutoConfiguration
 @MapperScan("")
 @SpringBootApplication
-@ComponentScan
-@EnableCaching
+@ComponentScan("com.houdask.site")
+//@EnableCaching
 public @interface HdSpringBootService {
     /**
      * 设置Mapper文件对应的DAO类扫描目录
