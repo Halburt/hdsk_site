@@ -3,7 +3,11 @@
  */
 package com.houdask.site.common.entity;
 
+import com.houdask.site.common.utils.IdGen;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Entity支持类
@@ -41,7 +45,19 @@ public abstract class BaseEntity  implements Serializable {
 		this();
 		this.id = id;
 	}
+	/**
+	 * 插入之前执行方法，需要手动调用
+	 */
+	public void preInsert(){
+		this.setId(IdGen.uuid());
+	}
 
+	/**
+	 * 更新之前执行方法，需要手动调用
+	 */
+	public void preUpdate() {
+
+	}
 
 	public String getId() {
 		return id;

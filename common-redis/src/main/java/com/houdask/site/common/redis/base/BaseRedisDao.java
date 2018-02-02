@@ -11,6 +11,7 @@ import org.springframework.data.redis.connection.DataType;
 import org.springframework.data.redis.core.ZSetOperations;
 
 /**
+ * 缓存操作接口类定义
  * User: Halburt.
  * Explain: Redis操作的接口
  */

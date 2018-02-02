@@ -28,10 +28,17 @@ public abstract class BaseServiceImpl<D extends BaseDao<T> ,T extends  BaseEntit
         return dao.findList(entity);
     }
 
+    /**
+     * 保存方法（update、insert）
+     * 根据ID有无判断
+     * @param entity
+     * @return
+     */
     public int save(T entity) {
         if(entity.getId() !=  null){
             return  update(entity);
         }else{
+            entity.preInsert();
             return  insert(entity);
         }
 
