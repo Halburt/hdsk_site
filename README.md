@@ -24,3 +24,24 @@
 <b>web</b>为服务消费者 (通过facade层   调用service层 )
 </p>
 
+##具体分包说明
+**auth-jwt  组件:基础JWT插件（待完善）**<br>
+**auth-shiro 组件：认证shiro模块**
+**auth-user 组件：认证使用的对象** <br>
+**common 组件：提供基础代码Base层**
+**common-activemq 组件：MQ集成**
+**common-base-service 快速开发模块：微服务模块，直接依赖+简单配置就可以开发运行**
+**common-base-web 快速开发模块：Web模块，直接依赖+简单配置就可以开发运行**
+common-db
+common-redis
+common-spring
+common-swagger
+common-utils
+generate-code
+logs
+sys-user
+test-address
+user-facade
+user-service
+web
+

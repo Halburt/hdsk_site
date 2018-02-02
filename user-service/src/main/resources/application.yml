@@ -5,11 +5,14 @@ server:
 
 logging:
   path: logs/user-service
+  level: com.abc=DEBUG
 config: classpath:user-service-logback.xml
 
 mybatis:
     mapper-locations: classpath:mapping/*.xml
     type-aliases-package: com.houdask.site
+    configuration:
+      log-impl: LOG4J2
 cache:
     names: userCache
 #pagehelper分页

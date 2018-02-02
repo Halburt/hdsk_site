@@ -1,9 +1,6 @@
 package com.houdask.site.user.api;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.alibaba.fastjson.JSONObject;
-import com.houdask.site.common.service.HDException;
-import com.houdask.site.common.web.BaseController;
 import com.houdask.site.common.web.BaseJsonController;
 import com.houdask.site.user.entity.User;
 import com.houdask.site.user.service.IUserServiceFacade;

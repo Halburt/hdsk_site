@@ -3,11 +3,13 @@
  */
 package com.houdask.site.auth.shiro.manager;
 
-import com.houdask.site.auth.shiro.session.IdGen;
 import com.houdask.site.auth.shiro.util.Servlets;
+import com.houdask.site.common.utils.IdGen;
 import com.houdask.site.common.utils.StringUtils;
-import org.apache.shiro.session.*;
-import org.apache.shiro.session.mgt.DelegatingSession;
+import org.apache.shiro.session.ExpiredSessionException;
+import org.apache.shiro.session.InvalidSessionException;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.SessionException;
 import org.apache.shiro.session.mgt.SessionContext;
 import org.apache.shiro.session.mgt.SessionKey;
 import org.apache.shiro.session.mgt.SimpleSession;

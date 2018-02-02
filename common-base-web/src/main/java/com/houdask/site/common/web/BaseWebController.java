@@ -1,14 +1,13 @@
 package com.houdask.site.common.web;
 
 
-import com.houdask.site.auth.shiro.session.IdGen;
-import com.houdask.site.common.result.JsonReult;
+ import com.houdask.site.common.result.JsonReult;
 import com.houdask.site.common.service.HDException;
 import com.houdask.site.common.utils.DateUtils;
+import com.houdask.site.common.utils.IdGen;
 import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.ConstraintViolationException;
 

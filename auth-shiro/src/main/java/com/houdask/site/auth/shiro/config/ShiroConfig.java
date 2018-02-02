@@ -4,7 +4,6 @@ import com.houdask.site.auth.shiro.manager.MyRedisCacheManager;
 import com.houdask.site.auth.shiro.realm.CustomSystemCredentialsMatcher;
 import com.houdask.site.auth.shiro.realm.MyShiroRealm;
 import com.houdask.site.auth.shiro.session.CustomSessionListener;
-import com.houdask.site.auth.shiro.session.IdGen;
 import com.houdask.site.auth.shiro.session.RedisSessionDAO;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.CacheManager;
