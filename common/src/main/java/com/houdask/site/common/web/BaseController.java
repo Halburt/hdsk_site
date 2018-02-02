@@ -1,14 +1,20 @@
 package com.houdask.site.common.web;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.houdask.site.common.result.JsonReult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import java.util.Date;
 
 /**
  * @author Halburt 2018-01-16
  */
 public abstract class BaseController {
+
+    protected   Logger logger = LoggerFactory.getLogger(BaseController.class);
 
     protected String adminPath="";
     /**
@@ -18,7 +24,7 @@ public abstract class BaseController {
 
     /**
      * 添加Model消息
-     * @param message
+     * @param messages
      */
     protected void addMessage(Model model, String... messages) {
         StringBuilder sb = new StringBuilder();
@@ -36,4 +42,16 @@ public abstract class BaseController {
     protected boolean beanValidator(Model model, Object object, Class<?>... groups) {
         return true;
     }
+
+
+    @ResponseBody
+    @ExceptionHandler(value = Exception.class)
+    public JsonReult errorHandler(Exception ex) {
+        return JsonReult.error(JsonReult.DICT_SYSTEM_ERROR,"系统异常");
+    }
+  /*  @ResponseBody
+    @ExceptionHandler(value = ArithmeticException.class)
+    public JsonReult ArithmeticExceptionHandler(ArithmeticException ex) {
+        return JsonReult.error(JsonReult.DICT_SYSTEM_ERROR,"ArithmeticException系统异常");
+    }*/
 }

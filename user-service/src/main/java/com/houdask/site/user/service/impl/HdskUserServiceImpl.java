@@ -1,6 +1,7 @@
 package com.houdask.site.user.service.impl;
 
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.houdask.site.common.redis.base.BaseRedisDao;
 import com.houdask.site.common.service.impl.BaseServiceImpl;
@@ -8,6 +9,7 @@ import com.houdask.site.user.dao.UserMapper;
 import com.houdask.site.user.entity.User;
 import com.houdask.site.user.service.HdskUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,8 +44,8 @@ public class HdskUserServiceImpl  extends BaseServiceImpl<UserMapper,User> imple
     }
 
     @Override
-//    @CachePut(value = RedisKeys._CACHE_TEST, key ="#id" )
-//    @Cacheable(value = RedisKeys._CACHE_TEST, key = "2")
+//    @CachePut(value = "hahah", key ="#id" )
+    @Cacheable(value = "hah", key ="#id" )
     public User get(String id) {
 
         return dao.get(id);
@@ -58,7 +60,7 @@ public class HdskUserServiceImpl  extends BaseServiceImpl<UserMapper,User> imple
      * */
     public List<User> findAllUser(int pageNum, int pageSize) {
         //将参数传给这个方法就可以实现物理分页了，非常简单。
-        PageHelper.startPage(pageNum, pageSize);
+        Page page  = PageHelper.startPage(pageNum, pageSize,false);// TODO 设置分页
         return dao.findAllList();
     }
 }

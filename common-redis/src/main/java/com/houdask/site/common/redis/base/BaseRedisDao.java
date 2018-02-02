@@ -14,7 +14,6 @@ import org.springframework.data.redis.core.ZSetOperations;
  * User: Halburt.
  * Explain: Redis操作的接口
  */
-
 public interface BaseRedisDao<K, V> {
 
     /**

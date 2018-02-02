@@ -2,10 +2,14 @@ package com.houdask.site.user.api;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONObject;
+import com.houdask.site.common.service.HDException;
 import com.houdask.site.common.web.BaseController;
+import com.houdask.site.common.web.BaseJsonController;
 import com.houdask.site.user.entity.User;
 import com.houdask.site.user.service.IUserServiceFacade;
 import io.swagger.annotations.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +24,7 @@ import java.util.UUID;
 @RequestMapping(value = "${adminPath}/api/user" )
 @RestController
 @ApiModel
-public class UserController /* extends BaseController*/{
+public class UserController  extends BaseJsonController {
 
     @Reference(version = "1.0.0",check = false)
     private IUserServiceFacade userService;
@@ -64,5 +68,10 @@ public class UserController /* extends BaseController*/{
     public String hello( ) {
 //        userService.hello();
         return userService.hello()+"";
+    }
+     @GetMapping(value = "/error/{i}" )
+    public String error( @PathVariable int i) {
+       double j =   6/i;
+        return  "OK";
     }
 }
