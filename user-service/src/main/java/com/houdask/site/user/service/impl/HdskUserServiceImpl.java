@@ -60,7 +60,8 @@ public class HdskUserServiceImpl  extends BaseServiceImpl<UserMapper,User> imple
      * */
     public List<User> findAllUser(int pageNum, int pageSize) {
         //将参数传给这个方法就可以实现物理分页了，非常简单。
-        Page page  = PageHelper.startPage(pageNum, pageSize,false);// TODO 设置分页
+//        Page page  = PageHelper.startPage(pageNum, pageSize,false);// TODO 设置分页
+        PageHelper.startPage(pageNum, pageSize);// TODO 设置分页
         return dao.findAllList();
     }
 }
