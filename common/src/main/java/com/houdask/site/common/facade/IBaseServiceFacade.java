@@ -1,18 +1,18 @@
-package com.houdask.site.common.service;
+package com.houdask.site.common.facade;
 
-import com.houdask.site.common.entity.BaseEntity;
 import com.houdask.site.common.entity.Page;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Halburt 2018-01-16
  */
-public interface BaseService< T extends BaseEntity> {
+public interface IBaseServiceFacade<T> {
 
     /**
      * 获取单条数据
-     * @param T
+     * @param id
      * @return
      */
     public T get(String id);
@@ -47,6 +47,7 @@ public interface BaseService< T extends BaseEntity> {
      * @return
      */
     public Page<T> findPageList(T entity );
+
     /**
      * 保存数据
      */
@@ -54,11 +55,9 @@ public interface BaseService< T extends BaseEntity> {
     /**
      * 保存数据
      */
-
     public int insert(T entity) ;
 
     public int update(T entity) ;
-
     /**
      * 删除
      * @param entity

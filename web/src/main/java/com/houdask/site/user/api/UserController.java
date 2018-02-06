@@ -1,6 +1,7 @@
 package com.houdask.site.user.api;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.houdask.site.common.result.JsonReult;
 import com.houdask.site.common.web.BaseJsonController;
 import com.houdask.site.user.entity.User;
 import com.houdask.site.user.service.IUserServiceFacade;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 /**
@@ -38,9 +39,9 @@ public class UserController  extends BaseJsonController {
 
     })
     @RequestMapping(value = "/all" )
-    public List findAllUser(int pageNum, int pageSize) {
-        List list = userService.findAllUser(pageNum, pageSize);
-        return list;
+    public JsonReult findAllUser(int pageNum, int pageSize, HttpServletRequest request) {
+     //   Principal principal = (Principal) request.getAttribute(Principal.PRINCIPAL_REQUEST_KEY);
+        return  JsonReult.success(userService.findAllUser(pageNum, pageSize));
     }
 
     @ApiOperation("添加用户信息")
@@ -66,6 +67,16 @@ public class UserController  extends BaseJsonController {
 //        userService.hello();
         return userService.hello()+"";
     }
+    @ApiOperation("查看异常捕捉")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="path",name="i",dataType="int",required=true,value="被除数",defaultValue="1")
+    })
+    @ApiResponses({
+            @ApiResponse(response = User.class, code = 200, message = "请求成功"),
+            @ApiResponse(code=400,message="请求参数没填好"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对")
+
+    })
      @GetMapping(value = "/error/{i}" )
     public String error( @PathVariable int i) {
        double j =   6/i;

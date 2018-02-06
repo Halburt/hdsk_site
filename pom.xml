@@ -32,24 +32,36 @@
         <mybatis-starter.version>1.3.1</mybatis-starter.version>
     </properties>
     <modules>
+       <!-- 基础模块-->
         <module>common</module>
         <module>common-db</module>
         <module>common-spring</module>
-        <module>user-facade</module>
-        <module>user-service</module>
         <module>common-redis</module>
         <module>auth-shiro</module>
         <module>common-utils</module>
-        <module>sys-user</module>
         <module>auth-jwt</module>
-        <module>auth-user</module>
-        <module>web</module>
         <module>common-activemq</module>
         <module>common-swagger</module>
-        <module>generate-code</module>
+       <!-- <module>generate-code</module>-->
+        <!-- 基础业务模块-->
         <module>common-base-service</module>
-        <module>test-address</module>
+        <module>common-base-facade</module>
         <module>common-base-web</module>
+        <module>common-base-api</module>
+        <!-- 拓展业务模块-->
+        <module>user-facade</module>
+        <module>user-service</module>
+        <module>auth-user</module>
+        <module>web</module>
+        <module>sys-user</module>
+        <module>test-address</module>
+        <module>api-web</module>
+        <module>test-address-service</module>
+        <module>test-address-web</module>
+        <module>test-address-api</module>
+        <module>test-address-facade</module>
+
+
 
     </modules>
     <build>

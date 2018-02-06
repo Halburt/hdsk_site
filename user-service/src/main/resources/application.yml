@@ -4,7 +4,7 @@ server:
  # context-path: /user-service/
 
 logging:
-  path: logs/user-service
+  path: @parent.basedir@/logs/user-service
   config: classpath:user-service-logback.xml
 
 mybatis:

@@ -21,7 +21,18 @@
             <artifactId>common-base-web</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.houdask.hdsk.site</groupId>
+            <artifactId>common-base-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.houdask.hdsk.site</groupId>
+            <artifactId>user-facade</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>

@@ -17,7 +17,7 @@ public class CustomSystemCredentialsMatcher extends HashedCredentialsMatcher {
 
     public CustomSystemCredentialsMatcher() {
     }
-
+    @Override
     public boolean doCredentialsMatch(AuthenticationToken authcToken, AuthenticationInfo info) {
         SysAuthToken token = (SysAuthToken)authcToken;
         if(token.getAuthPrincipal() != null ){

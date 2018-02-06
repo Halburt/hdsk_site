@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>com.houdask.hdsk.site</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>common-base-facade</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

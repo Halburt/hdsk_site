@@ -1,8 +1,8 @@
 package com.houdask.site.user.service.impl;
 
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.houdask.site.common.entity.Page;
 import com.houdask.site.common.redis.base.BaseRedisDao;
 import com.houdask.site.common.service.impl.BaseServiceImpl;
 import com.houdask.site.user.dao.UserMapper;
@@ -29,6 +29,7 @@ public class HdskUserServiceImpl  extends BaseServiceImpl<UserMapper,User> imple
      * 获取redis中数据
      * @return
      */
+    @Override
     public Map getCacheUser( ) {
 
         return baseRedisDao.getMap("user");
@@ -37,7 +38,7 @@ public class HdskUserServiceImpl  extends BaseServiceImpl<UserMapper,User> imple
      * @Cacheable 应用到读取数据的方法上，先从缓存中读取，如果没有再从DB获取数据，然后把数据添加到缓存中
      * unless 表示条件表达式成立的话不放入缓存
      */
-
+    @Override
     public int addUser(User user) {
         baseRedisDao.addMap("user",user.getId(),user,5000);
         return dao.insert(user);
@@ -58,10 +59,13 @@ public class HdskUserServiceImpl  extends BaseServiceImpl<UserMapper,User> imple
      * pageNum 开始页数
      * pageSize 每页显示的数据条数
      * */
+    @Override
     public List<User> findAllUser(int pageNum, int pageSize) {
         //将参数传给这个方法就可以实现物理分页了，非常简单。
-//        Page page  = PageHelper.startPage(pageNum, pageSize,false);// TODO 设置分页
+//        Page page  = PageHelper.startPage(pageNum, pageSize,false);// TODO 设置分页，不做统计总数
         PageHelper.startPage(pageNum, pageSize);// TODO 设置分页
-        return dao.findAllList();
+        Page page = (Page) dao.findAllList();
+        System.out.println( page.getTotal());
+        return  page.getResult();
     }
 }

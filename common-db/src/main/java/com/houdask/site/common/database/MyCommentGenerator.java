@@ -6,7 +6,6 @@ import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.*;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
-import org.mybatis.generator.internal.DefaultCommentGenerator;
 import org.mybatis.generator.internal.util.StringUtility;
 
 import java.util.Date;
@@ -20,7 +19,7 @@ public class MyCommentGenerator implements CommentGenerator {
     private Properties properties = new Properties();
     private boolean suppressDate = false;
     private boolean suppressAllComments = false;
-
+    @Override
     public void addFieldComment(Field field, IntrospectedTable introspectedTable, IntrospectedColumn introspectedColumn) {
         if (introspectedColumn.getRemarks() != null && !introspectedColumn.getRemarks().equals("")) {
             field.addJavaDocLine("/**");
@@ -30,13 +29,12 @@ public class MyCommentGenerator implements CommentGenerator {
         }
     }
 
-
     public MyCommentGenerator() {
     }
-
+    @Override
     public void addJavaFileComment(CompilationUnit compilationUnit) {
     }
-
+    @Override
     public void addComment(XmlElement xmlElement) {
         if (!this.suppressAllComments) {
             xmlElement.addElement(new TextElement("<!--"));
@@ -57,16 +55,15 @@ public class MyCommentGenerator implements CommentGenerator {
             xmlElement.addElement(new TextElement("-->"));
         }
     }
-
+    @Override
     public void addRootComment(XmlElement rootElement) {
     }
-
+    @Override
     public void addConfigurationProperties(Properties properties) {
         this.properties.putAll(properties);
         this.suppressDate = StringUtility.isTrue(properties.getProperty("suppressDate"));
         this.suppressAllComments = StringUtility.isTrue(properties.getProperty("suppressAllComments"));
     }
-
     protected void addJavadocTag(JavaElement javaElement, boolean markAsDoNotDelete) {
         javaElement.addJavaDocLine(" *");
         StringBuilder sb = new StringBuilder();
@@ -84,11 +81,10 @@ public class MyCommentGenerator implements CommentGenerator {
 
         javaElement.addJavaDocLine(sb.toString());
     }
-
     protected String getDateString() {
         return this.suppressDate ? null : (new Date()).toString();
     }
-
+    @Override
     public void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable) {
         if (!this.suppressAllComments) {
             StringBuilder sb = new StringBuilder();
@@ -101,7 +97,7 @@ public class MyCommentGenerator implements CommentGenerator {
             innerClass.addJavaDocLine(" */");
         }
     }
-
+    @Override
     public void addEnumComment(InnerEnum innerEnum, IntrospectedTable introspectedTable) {
         if (!this.suppressAllComments) {
             StringBuilder sb = new StringBuilder();

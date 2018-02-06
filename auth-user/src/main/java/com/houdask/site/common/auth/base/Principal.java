@@ -4,12 +4,15 @@ import com.houdask.site.common.auth.base.enmu.LoginWay;
 import com.houdask.site.common.auth.base.enmu.RegisteType;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
 	 * 授权用户信息
 	 */
 public  class Principal implements Serializable {
     public static String  Principal_SESSION_KEY = "Principal_SESSION_KEY";
+    public final static String PRINCIPAL_REQUEST_KEY = "PRINCIPAL_KEY";
     /**
      * 对应系统中唯一标识ID
      */
@@ -96,6 +99,21 @@ public  class Principal implements Serializable {
     @Override
     public String toString() {
         return id;
+    }
+
+    /**
+     * 获取对象map
+     * @return
+     */
+    public Map  getMap(){
+        HashMap map = new HashMap();
+        map.put("id" ,this.id);
+        map.put("realname" ,this.realname);
+        map.put("sessionId" ,this.sessionId);
+        map.put("registeType" ,this.registeType.getType());
+        map.put("loginWay" ,this.loginWay.getWay());
+        map.put("nickname" ,this.nickname);
+        return  map;
     }
 
 }

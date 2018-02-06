@@ -1,27 +1,30 @@
 package com.houdask.site.common.web;
 
 
- import com.houdask.site.common.result.JsonReult;
+import com.houdask.site.common.result.JsonReult;
 import com.houdask.site.common.service.HDException;
 import com.houdask.site.common.utils.DateUtils;
 import com.houdask.site.common.utils.IdGen;
+import com.houdask.site.common.web.BaseController;
 import org.apache.shiro.authc.AuthenticationException;
- import org.springframework.beans.factory.annotation.Value;
- import org.springframework.validation.BindException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.ConstraintViolationException;
 
 /**
- * TODO 统一定义web异常处理  待完善
+ * 统一定义JSON api父类
  */
-public class BaseWebController extends BaseController{
+public class BaseJsonController extends BaseController {
 
-    @Value("${adminPath}")
-    protected String adminPath;
+    @Value("${apiPath}")
+    private String apiPath;
     /**
      * 参数绑定异常
      */
+    @ResponseBody
     @ExceptionHandler({BindException.class, ConstraintViolationException.class, javax.validation.ValidationException.class})
     public JsonReult bindException(Exception exception) {
         //按需重新封装需要返回的错误信息
@@ -30,6 +33,7 @@ public class BaseWebController extends BaseController{
 
     }
     @Override
+    @ResponseBody
     @ExceptionHandler(value = Exception.class)
     public JsonReult errorHandler(Exception ex) {
         logger.error("SysException:{} ERROR_MSG:{} ", DateUtils.getNow(), ex.getMessage()  );
@@ -40,6 +44,7 @@ public class BaseWebController extends BaseController{
      * @param ex
      * @return
      */
+    @ResponseBody
     @ExceptionHandler(value = HDException.class)
     public JsonReult serviceExceptionHandler(HDException ex) {
         String errorId = IdGen.uuid();
@@ -49,10 +54,10 @@ public class BaseWebController extends BaseController{
     /**
      * 授权登录异常
      */
+    @ResponseBody
     @ExceptionHandler({AuthenticationException.class})
     public JsonReult authenticationException(AuthenticationException ex) {
         logger.error("SysException:{} ERROR_MSG:{} ", DateUtils.getNow(), ex.getMessage()  );
         return JsonReult.error(JsonReult.AUTH_ERROR,"权限不足。");
     }
-
 }

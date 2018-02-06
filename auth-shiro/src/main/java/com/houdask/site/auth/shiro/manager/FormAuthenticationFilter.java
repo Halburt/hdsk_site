@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.FormAuthenticationFilter {
 
-
+	@Override
 	protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
 		String username = getUsername(request);
 		String password = getPassword(request);
@@ -35,6 +35,7 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 	/**
 	 * 登录成功之后跳转URL
 	 */
+	@Override
 	public String getSuccessUrl() {
 		return super.getSuccessUrl();
 	}

@@ -2,8 +2,11 @@ package com.houdask.site.common.service.impl;
 
 import com.houdask.site.common.dao.BaseDao;
 import com.houdask.site.common.entity.BaseEntity;
+import com.houdask.site.common.entity.Page;
 import com.houdask.site.common.service.BaseService;
+import com.houdask.site.common.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 
 /**
@@ -26,6 +29,16 @@ public abstract class BaseServiceImpl<D extends BaseDao<T> ,T extends  BaseEntit
 
     public List<T> findList(T entity) {
         return dao.findList(entity);
+    }
+
+    public List<T> findList(T entity ,int pageNum,int pageSize) {
+        PageUtil.startPage(pageNum,pageSize,false);
+        return dao.findList(entity);
+    }
+
+    public Page<T> findPageList(T entity ) {
+        PageUtil.startPage(entity.getPage().getPageNum(),entity.getPage().getPageSize());
+        return (Page<T>) dao.findList(entity);
     }
 
     /**

@@ -28,7 +28,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private   String sessionPrefix = "shiroSession_";
-    private   String All_SESSION = "All_SESSION_";
+    private   String allSession = "All_SESSION_";
     private static final long TIMEOUT = 1800;
 
 
@@ -94,7 +94,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
         // 获取登录者编号
         String principalId = (String) session.getAttribute(Principal.Principal_SESSION_KEY);
         if(principalId != null){
-            baseRedisDao.addMap(All_SESSION, session.getId().toString(),
+            baseRedisDao.addMap(allSession, session.getId().toString(),
                     principalId + "|" + session.getTimeout() + "|" + session.getLastAccessTime().getTime());
         }
     }
@@ -103,7 +103,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
     @Override
     public void delete(Session session) {
         baseRedisDao.remove(getKey(session.getId().toString()));
-        baseRedisDao.removeMapField(All_SESSION, session.getId().toString());
+        baseRedisDao.removeMapField(allSession, session.getId().toString());
     }
 
     @Override

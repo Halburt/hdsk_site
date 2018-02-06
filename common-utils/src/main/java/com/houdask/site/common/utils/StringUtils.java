@@ -124,7 +124,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
         return "";
     }
-
+    private static  Pattern p_abbr2 = Pattern.compile("<([a-zA-Z]+)[^<>]*>");
     public static String abbr2(String param, int length) {
         if (param == null) {
             return "";
@@ -170,11 +170,12 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
                         "</?(AREA|BASE|BASEFONT|BODY|BR|COL|COLGROUP|DD|DT|FRAME|HEAD|HR|HTML|IMG|INPUT|ISINDEX|LI|LINK|META|OPTION|P|PARAM|TBODY|TD|TFOOT|TH|THEAD|TR|area|base|basefont|body|br|col|colgroup|dd|dt|frame|head|hr|html|img|input|isindex|li|link|meta|option|p|param|tbody|td|tfoot|th|thead|tr)[^<>]*/?>",
                         "");
         // 去掉成对的HTML标记
+
         temp_result = temp_result.replaceAll("<([a-zA-Z]+)[^<>]*>(.*?)</\\1>",
                 "$2");
         // 用正则表达式取出标记
-        Pattern p = Pattern.compile("<([a-zA-Z]+)[^<>]*>");
-        Matcher m = p.matcher(temp_result);
+
+        Matcher m = p_abbr2.matcher(temp_result);
         List<String> endHTML = new ArrayList<String>();
         while (m.find()) {
             endHTML.add(m.group(1));
