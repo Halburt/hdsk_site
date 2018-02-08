@@ -50,7 +50,7 @@ public class RedisConfig {
 
     @Bean
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory, RedisSerializer fastJson2JsonRedisSerializer) {
-        StringRedisTemplate redisTemplate = new StringRedisTemplate(factory);
+        StringRedisTemplate redisTemplate = new StringRedisTemplate();
         redisTemplate.setConnectionFactory(factory);
         //redis   开启事务
         redisTemplate.setEnableTransactionSupport(true);
