@@ -1,0 +1,25 @@
+server:
+    port: 8100
+  #${random.int[9000,9999]}
+adminPath: /V1
+apiPath: /api
+logging:
+  path:   @parent.basedir@/logs/address-api
+  config: classpath:spring-logback.xml
+## Dubbo 服务消费者配置
+spring:
+  dubbo:
+     scan: com.houdask.site
+     application:
+        name: address-api-web
+          #负责人
+      #注册zookeeper的地址
+     registry:
+        address: zookeeper://192.168.1.174:2181?backup=192.168.1.174:2182,192.168.1.174:2183
+
+  mvc:
+    view:
+    # 页面默认前缀目录
+      prefix: /WEB-INF/jsp/
+      # 响应页面默认后缀
+      suffix: .jsp

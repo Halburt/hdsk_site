@@ -17,6 +17,11 @@
             <artifactId>common-base-service</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.houdask.hdsk.site</groupId>
+            <artifactId>common-base-web</artifactId>
+            <version>1.0</version>
+        </dependency>
 
     </dependencies>
 </project>

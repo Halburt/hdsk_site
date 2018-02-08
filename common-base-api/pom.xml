@@ -24,11 +24,6 @@
         </dependency>
         <dependency>
             <groupId>com.houdask.hdsk.site</groupId>
-            <artifactId>auth-shiro</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.houdask.hdsk.site</groupId>
             <artifactId>common</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -69,6 +64,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>1.4.0</version>
         </dependency>
     </dependencies>
 </project>
