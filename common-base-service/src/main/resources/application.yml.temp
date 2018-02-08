@@ -1,5 +1,5 @@
 mybatis:
-    mapper-locations: classpath:mapping/**.xml
+    mapper-locations: classpath:mappings/**.xml
     type-aliases-package: com.houdask.site
 #pagehelper分页
 pagehelper:

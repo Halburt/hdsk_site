@@ -7,6 +7,7 @@ import com.houdask.site.common.utils.DateUtils;
 import com.houdask.site.common.utils.IdGen;
 import org.apache.shiro.authc.AuthenticationException;
  import org.springframework.beans.factory.annotation.Value;
+ import org.springframework.ui.Model;
  import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -29,7 +30,6 @@ public class BaseWebController extends BaseController{
         return JsonReult.error(JsonReult.DICT_PARAM_ERROR,"参数错误");
 
     }
-    @Override
     @ExceptionHandler(value = Exception.class)
     public JsonReult errorHandler(Exception ex) {
         logger.error("SysException:{} ERROR_MSG:{} ", DateUtils.getNow(), ex.getMessage()  );
@@ -53,6 +53,26 @@ public class BaseWebController extends BaseController{
     public JsonReult authenticationException(AuthenticationException ex) {
         logger.error("SysException:{} ERROR_MSG:{} ", DateUtils.getNow(), ex.getMessage()  );
         return JsonReult.error(JsonReult.AUTH_ERROR,"权限不足。");
+    }
+    /**
+     * 添加Model消息
+     * @param messages
+     */
+    protected void addMessage(Model model, String... messages) {
+        StringBuilder sb = new StringBuilder();
+        for (String message : messages){
+            sb.append(message).append(messages.length>1?"<br/>":"");
+        }
+        model.addAttribute("message", sb.toString());
+    }
+    /**
+     * 服务端参数有效性验证
+     * @param object 验证的实体对象
+     * @param groups 验证组
+     * @return 验证成功：返回true；严重失败：将错误信息添加到 message 中
+     */
+    protected boolean beanValidator(Model model, Object object, Class<?>... groups) {
+        return true;
     }
 
 }

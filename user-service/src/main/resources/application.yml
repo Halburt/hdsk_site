@@ -8,11 +8,9 @@ logging:
   config: classpath:user-service-logback.xml
 
 mybatis:
-    mapper-locations: classpath:mapping/*.xml
+    mapper-locations: classpath:mappings/*.xml
     type-aliases-package: com.houdask.site
 
-cache:
-    names: userCache
 #pagehelper分页
 pagehelper:
    helperDialect: mysql

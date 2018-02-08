@@ -7,6 +7,7 @@ import com.houdask.site.common.service.BaseService;
 import com.houdask.site.common.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,17 +29,20 @@ public abstract class BaseServiceImpl<D extends BaseDao<T> ,T extends  BaseEntit
     }
 
     public List<T> findList(T entity) {
-        return dao.findList(entity);
+        List<T> list = dao.findList(entity);
+        return list == null ? new ArrayList<T>(1) : list;
     }
 
     public List<T> findList(T entity ,int pageNum,int pageSize) {
         PageUtil.startPage(pageNum,pageSize,false);
-        return dao.findList(entity);
+        List<T> list = dao.findList(entity);
+        return list == null ? new ArrayList<T>(1) : list ;
     }
 
     public Page<T> findPageList(T entity ) {
         PageUtil.startPage(entity.getPage().getPageNum(),entity.getPage().getPageSize());
-        return (Page<T>) dao.findList(entity);
+        Page<T> page =   (Page<T>) dao.findList(entity);
+        return page == null ? new Page<T>() : page ;
     }
 
     /**

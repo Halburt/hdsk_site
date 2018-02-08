@@ -4,10 +4,7 @@
 package com.houdask.site.common.entity;
 
 import com.houdask.site.common.utils.IdGen;
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Entity支持类

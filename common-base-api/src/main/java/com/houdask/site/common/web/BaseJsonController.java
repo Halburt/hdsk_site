@@ -29,15 +29,16 @@ public class BaseJsonController extends BaseController {
     public JsonReult bindException(Exception exception) {
         //按需重新封装需要返回的错误信息
         logger.error("bindException:{} ERROR_MSG:{} ", DateUtils.getNow(), exception.getMessage()  );
-        return JsonReult.error(JsonReult.DICT_PARAM_ERROR,"参数错误");
+        exception.printStackTrace();
+        return JsonReult.error(JsonReult.DICT_PARAM_ERROR,"参数错误",exception.getMessage());
 
     }
-    @Override
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
     public JsonReult errorHandler(Exception ex) {
         logger.error("SysException:{} ERROR_MSG:{} ", DateUtils.getNow(), ex.getMessage()  );
-        return JsonReult.error(JsonReult.DICT_SYSTEM_ERROR,"系统异常");
+        ex.printStackTrace();
+        return JsonReult.error(JsonReult.DICT_SYSTEM_ERROR,"系统异常",ex.getMessage());
     }
     /**
      * 全局异ServiceException常捕捉处理
@@ -49,7 +50,8 @@ public class BaseJsonController extends BaseController {
     public JsonReult serviceExceptionHandler(HDException ex) {
         String errorId = IdGen.uuid();
         logger.error("HDException:{} ERROR_ID:{}  CODE:{} MSG:{} ", DateUtils.getNow(),errorId ,ex.getCode(),  ex.getMsg() );
-        return JsonReult.error(ex.getCode(), errorId +" "+ ex.getMsg());
+        ex.printStackTrace();
+        return JsonReult.error(ex.getCode(), errorId +" "+ ex.getMsg(),ex.getMessage());
     }
     /**
      * 授权登录异常
@@ -58,6 +60,7 @@ public class BaseJsonController extends BaseController {
     @ExceptionHandler({AuthenticationException.class})
     public JsonReult authenticationException(AuthenticationException ex) {
         logger.error("SysException:{} ERROR_MSG:{} ", DateUtils.getNow(), ex.getMessage()  );
-        return JsonReult.error(JsonReult.AUTH_ERROR,"权限不足。");
+        ex.printStackTrace();
+        return JsonReult.error(JsonReult.AUTH_ERROR,"权限不足。", ex.getMessage());
     }
 }

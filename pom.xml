@@ -33,15 +33,18 @@
     </properties>
     <modules>
        <!-- 基础模块-->
-        <module>common</module>
         <module>common-db</module>
         <module>common-spring</module>
+        <module>common-redis-base</module>
+        <module>auth-user</module>
         <module>common-redis</module>
+        <module>common-redis-master-slave-starter</module>
         <module>auth-shiro</module>
         <module>common-utils</module>
         <module>auth-jwt</module>
         <module>common-activemq</module>
         <module>common-swagger</module>
+        <module>common</module>
        <!-- <module>generate-code</module>-->
         <!-- 基础业务模块-->
         <module>common-base-service</module>
@@ -51,18 +54,13 @@
         <!-- 拓展业务模块-->
         <module>user-facade</module>
         <module>user-service</module>
-        <module>auth-user</module>
         <module>web</module>
-        <module>sys-user</module>
         <module>test-address</module>
         <module>api-web</module>
         <module>test-address-service</module>
         <module>test-address-web</module>
         <module>test-address-api</module>
         <module>test-address-facade</module>
-
-
-
     </modules>
     <build>
         <plugins>

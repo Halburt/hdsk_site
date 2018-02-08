@@ -31,7 +31,6 @@ public interface BaseService< T extends BaseEntity> {
      * @return
      */
     public List<T> findList(T entity);
-
     /**
      * 分页查询（不会统计记录总数）
      * @param entity

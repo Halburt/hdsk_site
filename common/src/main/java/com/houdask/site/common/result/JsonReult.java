@@ -50,7 +50,9 @@ public class JsonReult  implements Serializable {
     public static JsonReult error( String code, String message){
         return new JsonReult(null , code,message);
     }
-
+    public static JsonReult error( String code, String message,Object data){
+        return new JsonReult(data , code,message);
+    }
     /**
      * 系统错误
      * @return

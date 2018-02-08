@@ -51,7 +51,7 @@ public class RedisConfig {
     @Bean
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory, RedisSerializer fastJson2JsonRedisSerializer) {
         StringRedisTemplate redisTemplate = new StringRedisTemplate(factory);
-        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setConnectionFactory(factory);
         //redis   开启事务
         redisTemplate.setEnableTransactionSupport(true);
         //hash  使用jdk  的序列化
