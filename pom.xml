@@ -61,6 +61,7 @@
         <module>test-address-web</module>
         <module>test-address-api</module>
         <module>test-address-facade</module>
+        <module>common-user-log</module>
     </modules>
     <build>
         <plugins>

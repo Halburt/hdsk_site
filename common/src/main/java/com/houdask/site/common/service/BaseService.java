@@ -12,7 +12,7 @@ public interface BaseService< T extends BaseEntity> {
 
     /**
      * 获取单条数据
-     * @param T
+     * @param id
      * @return
      */
     public T get(String id);

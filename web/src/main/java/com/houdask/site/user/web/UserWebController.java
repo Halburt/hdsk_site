@@ -27,7 +27,7 @@ import java.util.List;
 @Controller
 public class UserWebController {
 
-    @Reference(version = "1.0.0" ,check = false)
+    @Reference(version = "1.0.0" )
     private IUserServiceFacade userService;
 
     @RequestMapping(value = "/user/list" )

@@ -45,3 +45,9 @@ user-facade
 user-service
 web
 
+##准备工作
+### 安装Redis
+### 安装Zookeeper
+### 安装MySQL
+
+

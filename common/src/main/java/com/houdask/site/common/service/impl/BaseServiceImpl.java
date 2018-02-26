@@ -41,8 +41,8 @@ public abstract class BaseServiceImpl<D extends BaseDao<T> ,T extends  BaseEntit
 
     public Page<T> findPageList(T entity ) {
         PageUtil.startPage(entity.getPage().getPageNum(),entity.getPage().getPageSize());
-        Page<T> page =   (Page<T>) dao.findList(entity);
-        return page == null ? new Page<T>() : page ;
+        Page<T> page = new Page((com.github.pagehelper.Page) dao.findList(entity));
+        return   page ;
     }
 
     /**

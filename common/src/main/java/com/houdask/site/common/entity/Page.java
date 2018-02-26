@@ -5,18 +5,37 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 分页类
  * @param <T>
  */
-public class Page<T> extends com.github.pagehelper.Page<T> {
+public class Page<T>  implements Serializable{
 
     public static final int defaultPageSize = 10;
     private String orderBy = ""; // 标准查询有效， 实例： updatedate desc, name asc
 
-    public Page() {
+    //当前页码
+    private int pageNum ;
+    //每页记录数
+    private int pageSize;
+    //数据集合
+    private List<T> list = new ArrayList<T>();
+//  数据总记录数（不一定等于list.size()）
+    private long  count;//
+
+    public Page(){}
+
+    public Page(com.github.pagehelper.Page resultPage) {
+        this.list = resultPage.getResult();
+        this.pageNum = resultPage.getPageNum();
+        this.pageSize = resultPage.getPageSize();
+        this.count = resultPage.getTotal();
     }
+
     /**
      * 构造方法
      * @param request 传递 repage 参数，来记住页码
@@ -56,23 +75,43 @@ public class Page<T> extends com.github.pagehelper.Page<T> {
         }
     }
 
-    public Page(int pageNum, int pageSize) {
-        super(pageNum, pageSize);
-    }
-
-    public Page(int pageNum, int pageSize, boolean count) {
-        super(pageNum, pageSize, count);
-    }
-
-    public Page(int[] rowBounds, boolean count) {
-        super(rowBounds, count);
-    }
-
     public String getOrderBy() {
         return orderBy;
     }
 
     public void setOrderBy(String orderBy) {
         this.orderBy = orderBy;
+    }
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public List<T> getList() {
+        return list;
+    }
+
+    public void setList(List<T> list) {
+        this.list = list;
+    }
+
+    public long getCount() {
+        return count;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
     }
 }

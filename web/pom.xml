@@ -31,6 +31,19 @@
             <artifactId>user-facade</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- Provided 如果有jsp页面要添加这2个tomcat依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class BaseServiceFacadeImpl<S extends BaseService<T>,T extends BaseEntity> implements IBaseServiceFacade <T>{
+public class BaseServiceFacadeImpl<S extends BaseService<T>,T extends BaseEntity> implements IBaseServiceFacade<T> {
 
     @Autowired
     protected S service;
@@ -34,7 +34,8 @@ public class BaseServiceFacadeImpl<S extends BaseService<T>,T extends BaseEntity
     }
 
     @Override
-    public Page<T> findPageList(T entity ) {
+    public Page<T> findPageList(T entity )
+    {
         return service.findPageList(entity );
     }
 

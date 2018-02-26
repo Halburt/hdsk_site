@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sys-user</artifactId>
+    <artifactId>common-user-log</artifactId>
 
 
 </project>
