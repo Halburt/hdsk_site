@@ -21,7 +21,10 @@
 <b>facade</b>为接口层（只定义 接口类 与 实体类）
 </p>
 <p>
-<b>web</b>为服务消费者 (通过facade层   调用service层 )
+<b>web</b>为web端服务消费者 (通过facade层   调用service层 )
+</p>
+<p>
+<b>api</b>为移动端服务消费者 (通过facade层   调用service层 )
 </p>
 
 ##具体分包说明

@@ -32,25 +32,27 @@
         <mybatis-starter.version>1.3.1</mybatis-starter.version>
     </properties>
     <modules>
-       <!-- 基础模块-->
-        <module>common-db</module>
-        <module>common-spring</module>
-        <module>common-redis-base</module>
-        <module>auth-user</module>
-        <module>common-redis</module>
-        <module>common-redis-master-slave-starter</module>
-        <module>auth-shiro</module>
-        <module>common-utils</module>
-        <module>auth-jwt</module>
-        <module>common-activemq</module>
-        <module>common-swagger</module>
-        <module>common</module>
-       <!-- <module>generate-code</module>-->
+        <!-- 基础模块-->
+        <module>common-package/common-db</module>
+        <module>common-package/common-spring</module>
+        <module>common-package/common-redis-base</module>
+        <module>common-package/auth-user</module>
+        <module>common-package/common-redis</module>
+        <module>common-package/common-redis-master-slave-starter</module>
+        <module>common-package/auth-shiro</module>
+        <module>common-package/common-utils</module>
+        <module>common-package/auth-jwt</module>
+        <module>common-package/common-user-log</module>
+        <module>common-package/common-activemq</module>
+        <module>common-package/common-swagger</module>
+        <module>common-package/common</module>
+        <!-- <module>generate-code</module>-->
         <!-- 基础业务模块-->
-        <module>common-base-service</module>
-        <module>common-base-facade</module>
-        <module>common-base-web</module>
-        <module>common-base-api</module>
+        <module>common-base/common-base-service</module>
+        <module>common-base/common-base-facade</module>
+        <module>common-base/common-base-web</module>
+        <module>common-base/common-base-api</module>
+
         <!-- 拓展业务模块-->
         <module>user-facade</module>
         <module>user-service</module>
@@ -61,7 +63,9 @@
         <module>test-address-web</module>
         <module>test-address-api</module>
         <module>test-address-facade</module>
-        <module>common-user-log</module>
+
+        <module>common-package</module>
+        <module>common-base</module>
     </modules>
     <build>
         <plugins>

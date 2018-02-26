@@ -1,0 +1,72 @@
+server:
+  #port: 9000
+   port: ${random.int[9000,9999]}
+ # context-path: /user-service/
+logging:
+  path: @parent.basedir@/logs/user-service
+  config: classpath:user-service-logback.xml
+
+mybatis:
+    mapper-locations: classpath:mappings/*.xml
+    type-aliases-package: com.houdask.site
+
+#pagehelper分页
+pagehelper:
+   helperDialect: mysql
+   reasonable: true
+   supportMethodsArguments: true
+   params: count=countSql
+
+spring:
+    datasource:
+       driver-class-name: com.mysql.jdbc.Driver
+       url: jdbc:mysql://127.0.0.1:3306/hdsk-site
+       username: root
+       password: root
+       type: com.alibaba.druid.pool.DruidDataSource
+       name: springbootservice
+       filters: stat, wall, log4j # 配置监控统计拦截的filters，去掉后监控界面sql将无法统计，'wall'用于防火墙
+       maxActive:  20
+       initialSize:  1
+       maxWait: 60000
+       minIdle: 1
+       timeBetweenEvictionRunsMillis: 60000
+       minEvictableIdleTimeMillis: 300000
+       validationQuery: select 'x'
+       testWhileIdle: true
+       testOnBorrow: false
+       testOnReturn: false
+       druid:
+          url: /druid/*
+          allow: 192.168.1.140,127.0.0.1
+          deny: 192.168.2.1
+          loginUsername: druid
+          loginPassword: druid
+          resetEnable: false
+
+#https://github.com/JeffLi1993/springboot-learning-example/blob/master/springboot-dubbo-server
+## Dubbo 服务提供者配置
+#应用名
+    dubbo:
+       scan: com.houdask.site
+       application:
+           name: user-service-provider
+        #注册zookeeper的地址
+       registry:
+           address: zookeeper://192.168.1.174:2181?backup=192.168.1.174:2182,192.168.1.174:2183
+
+        #协议 (有 dubbo、rest、http、hessian、webservice)
+    #dubbo:
+       protocol:
+          name: dubbo
+        #协议暴露服务的端口(Integer类型)
+          port:  ${random.int[20880,20900]}
+          #20881
+                #序列化方式(kryo是目前效率最高的)
+        #  serialization: kryo
+    #序列化优化的实现类
+          optimizer: com.houdask.site.common.config.SerializationOptimizerImpl
+
+
+
+

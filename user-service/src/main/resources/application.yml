@@ -1,68 +1,11 @@
-server:
-  port: 9000
-  #port: ${random.int[9000,9999]}
- # context-path: /user-service/
-
-logging:
-  path: @parent.basedir@/logs/user-service
-  config: classpath:user-service-logback.xml
-
-mybatis:
-    mapper-locations: classpath:mappings/*.xml
-    type-aliases-package: com.houdask.site
-
-#pagehelper分页
-pagehelper:
-   helperDialect: mysql
-   reasonable: true
-   supportMethodsArguments: true
-   params: count=countSql
+#配置环境文件
+#在Spring Boot中多环境配置文件名需要满足application-{profile}.properties的格式，其中{profile}对应你的环境标识，比如：
+#application-dev.properties：开发环境
+#application-prod.properties：生产环境
+#想要使用对应的环境，只需要在application.properties中使用spring.profiles.active属性来设置，值对应上面提到的{profile}，这里就是指dev、prod这2个。
+#当然你也可以用命令行启动的时候带上参数：
+#java -jar xxx.jar --spring.profiles.active=dev
 
 spring:
-    datasource:
-       name: springbootservice
-       url: jdbc:mysql://127.0.0.1:3306/hdsk-site
-       username: root
-       password: root
-       type: com.alibaba.druid.pool.DruidDataSource
-       driver-class-name: com.mysql.jdbc.Driver
-       filters:  stat
-       maxActive:  20
-       initialSize:  1
-       maxWait: 60000
-       minIdle: 1
-       timeBetweenEvictionRunsMillis: 60000
-       minEvictableIdleTimeMillis: 300000
-       validationQuery: select 'x'
-       testWhileIdle: true
-       testOnBorrow: false
-       testOnReturn: false
-       poolPreparedStatements: true
-       maxOpenPreparedStatements: 20
-
-#https://github.com/JeffLi1993/springboot-learning-example/blob/master/springboot-dubbo-server
-## Dubbo 服务提供者配置
-
-#应用名
-    dubbo:
-       scan: com.houdask.site
-       application:
-           name: user-service-provider
-        #注册zookeeper的地址
-       registry:
-           address: zookeeper://127.0.0.1:2181
-        #协议 (有 dubbo、rest、http、hessian、webservice)
-    #dubbo:
-       protocol:
-          name: dubbo
-        #协议暴露服务的端口(Integer类型)
-          port:  ${random.int[20880,20900]}
-          #20881
-                #序列化方式(kryo是目前效率最高的)
-        #  serialization: kryo
-    #序列化优化的实现类
-          optimizer: com.houdask.site.common.config.SerializationOptimizerImpl
-
-
-
-
+  profiles:
+      active: dev

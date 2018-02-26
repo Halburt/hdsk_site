@@ -1,10 +1,10 @@
 package com.houdask.site.user.service.impl;
 
 
-import com.github.pagehelper.PageHelper;
-import com.houdask.site.common.entity.Page;
+import com.github.pagehelper.Page;
 import com.houdask.site.common.redis.base.BaseRedisDao;
 import com.houdask.site.common.service.impl.BaseServiceImpl;
+import com.houdask.site.common.util.PageUtil;
 import com.houdask.site.user.dao.UserMapper;
 import com.houdask.site.user.entity.User;
 import com.houdask.site.user.service.HdskUserService;
@@ -63,7 +63,7 @@ public class HdskUserServiceImpl  extends BaseServiceImpl<UserMapper,User> imple
     public List<User> findAllUser(int pageNum, int pageSize) {
         //将参数传给这个方法就可以实现物理分页了，非常简单。
 //        Page page  = PageHelper.startPage(pageNum, pageSize,false);// TODO 设置分页，不做统计总数
-        PageHelper.startPage(pageNum, pageSize);// TODO 设置分页
+        PageUtil.startPage(pageNum, pageSize);// TODO 设置分页
         Page page = (Page) dao.findAllList();
         System.out.println( page.getTotal());
         return  page.getResult();
